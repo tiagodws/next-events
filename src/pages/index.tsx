@@ -2,10 +2,12 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <main lang="en" className={inter.className}>
-      <h1>Hello World</h1>
+      <h1>Home Page</h1>
     </main>
   );
-}
+};
+
+export default HomePage;
