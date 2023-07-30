@@ -22,7 +22,7 @@ const EventSearchPage = () => {
   const year = Number(searchData?.[0]);
   const month = Number(searchData?.[1]);
   const isValidSearch = getIsValidSearch(year, month);
-  const events = isValidSearch && getFilteredEvents({ year, month });
+  const events = isValidSearch ? getFilteredEvents({ year, month }) : [];
 
   return (
     <div className="container mx-auto">
@@ -40,10 +40,17 @@ const EventSearchPage = () => {
 
             <div className="flex-1">
               {!isValidSearch && (
-                <Alert type="error" message="Invalid search parameters" />
+                <Alert type="error" message="Invalid search parameters!" />
               )}
 
-              {events && <EventList items={events} />}
+              {isValidSearch && !events.length && (
+                <Alert
+                  type="default"
+                  message="No events found for the selected period."
+                />
+              )}
+
+              {isValidSearch && !!events.length && <EventList items={events} />}
             </div>
           </>
         )}

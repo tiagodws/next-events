@@ -11,7 +11,11 @@ const EventDetailPage = () => {
   return (
     <div className="container mx-auto">
       {!id && <Loading />}
-      {!event && id && <Alert message="No event found!" type="error" />}
+
+      {!event && id && (
+        <Alert message="This event does not exist!" type="error" />
+      )}
+
       {event && <EventHeader {...event} />}
     </div>
   );
