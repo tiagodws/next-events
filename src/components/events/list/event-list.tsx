@@ -1,4 +1,4 @@
-import type { Event } from '@/data/dummy-data';
+import { Event } from '@prisma/client';
 import { FC } from 'react';
 import { EventListItem } from './event-list-item';
 

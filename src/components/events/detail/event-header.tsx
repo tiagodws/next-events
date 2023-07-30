@@ -4,14 +4,14 @@ import { FC } from 'react';
 
 type EventDetailProps = {
   title: string;
-  image: string;
-  date: string;
+  imageUrl: string;
+  date: Date;
   location: string;
   description: string;
 };
 
 export const EventDetail: FC<EventDetailProps> = (props) => {
-  const { title, image, date, location, description } = props;
+  const { title, imageUrl, date, location, description } = props;
   const displayDate = new Date(date).toLocaleDateString('en-GB', {
     weekday: 'short',
     year: 'numeric',
@@ -23,7 +23,12 @@ export const EventDetail: FC<EventDetailProps> = (props) => {
     <div className="hero ">
       <div className="hero-content flex-col lg:flex-row">
         <div className="relative w-full lg:w-40 rounded-lg shadow-2xl h-40 lg:h-60 lg:mr-8 overflow-hidden">
-          <Image src={image} alt={title} fill objectFit="cover" />
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         <div>

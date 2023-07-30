@@ -11,14 +11,14 @@ import { FC } from 'react';
 type EventListItemProps = {
   id: string;
   title: string;
-  image: string;
-  date: string;
+  imageUrl: string;
+  date: Date;
   location: string;
   isFeatured: boolean;
 };
 
 export const EventListItem: FC<EventListItemProps> = (props) => {
-  const { id, title, image, date, location, isFeatured } = props;
+  const { id, title, imageUrl, date, location, isFeatured } = props;
   const detailLink = `/events/${id}`;
   const displayDate = new Date(date).toLocaleDateString('en-GB', {
     weekday: 'short',
@@ -33,7 +33,7 @@ export const EventListItem: FC<EventListItemProps> = (props) => {
       className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       <figure className="relative overflow-hidden rounded-t-none  h-20">
-        <Image src={image} alt={title} fill style={{ objectFit: 'cover' }} />
+        <Image src={imageUrl} alt={title} fill style={{ objectFit: 'cover' }} />
       </figure>
 
       <div className="card-body">

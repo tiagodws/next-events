@@ -1,9 +1,15 @@
 import { EventList, EventSearch } from '@/components/events';
-import { getAllEvents } from '@/data/dummy-data';
+import { Event, PrismaClient } from '@prisma/client';
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
+import { FC } from 'react';
 
-const EventListPage = () => {
-  const events = getAllEvents();
+type EventListPageProps = {
+  events: Event[];
+};
+
+const EventListPage: FC<EventListPageProps> = (props) => {
+  const { events } = props;
   const router = useRouter();
 
   const onSearchHandler = (year: string, month: string) => {
@@ -24,6 +30,16 @@ const EventListPage = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps<EventListPageProps> = async () => {
+  const prisma = new PrismaClient();
+  const events = await prisma.event.findMany();
+
+  return {
+    props: { events },
+    revalidate: 60,
+  };
 };
 
 export default EventListPage;
