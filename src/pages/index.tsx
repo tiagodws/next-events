@@ -1,13 +1,12 @@
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const HomePage = () => {
-  return (
-    <main lang="en" className={inter.className} data-theme="light">
-      <h1>Home Page</h1>
-    </main>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/events');
+  }, [router]);
 };
 
 export default HomePage;

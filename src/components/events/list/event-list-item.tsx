@@ -2,7 +2,8 @@ import {
   CalendarIcon,
   ChevronRightIcon,
   MapPinIcon,
-} from '@heroicons/react/24/outline';
+  SparklesIcon,
+} from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -13,10 +14,11 @@ type EventListItemProps = {
   image: string;
   date: string;
   location: string;
+  isFeatured: boolean;
 };
 
 export const EventListItem: FC<EventListItemProps> = (props) => {
-  const { id, title, image, date, location } = props;
+  const { id, title, image, date, location, isFeatured } = props;
   const detailLink = `/events/${id}`;
   const displayDate = new Date(date).toLocaleDateString('en-GB', {
     weekday: 'short',
@@ -36,7 +38,15 @@ export const EventListItem: FC<EventListItemProps> = (props) => {
 
       <div className="card-body">
         <div className="flex items-center">
-          <h2 className="flex-1 card-title mr-2 prose">{title}</h2>
+          <h2 className="flex-1 card-title mr-2 prose">
+            {title}
+
+            {isFeatured && (
+              <div className="tooltip" data-tip="This is a featured event">
+                <SparklesIcon className="w-5 h-5 text-primary tooltip" />
+              </div>
+            )}
+          </h2>
           <div className="flex-0">
             <ChevronRightIcon
               strokeWidth={3}

@@ -2,17 +2,16 @@ import { CalendarIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { FC } from 'react';
 
-type EventHeaderProps = {
+type EventDetailProps = {
   title: string;
   image: string;
   date: string;
   location: string;
   description: string;
-  isFeatured: boolean;
 };
 
-export const EventHeader: FC<EventHeaderProps> = (props) => {
-  const { title, image, date, location, description, isFeatured } = props;
+export const EventDetail: FC<EventDetailProps> = (props) => {
+  const { title, image, date, location, description } = props;
   const displayDate = new Date(date).toLocaleDateString('en-GB', {
     weekday: 'short',
     year: 'numeric',

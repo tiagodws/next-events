@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { EventHeader } from '../../components/events';
+import { EventDetail } from '../../components/events';
 import { Alert, Loading } from '../../components/ui';
 import { getEventById } from '../../data/dummy-data';
 
@@ -16,7 +16,7 @@ const EventDetailPage = () => {
         <Alert message="This event does not exist!" type="error" />
       )}
 
-      {event && <EventHeader {...event} />}
+      {event && <EventDetail {...event} />}
     </div>
   );
 };
