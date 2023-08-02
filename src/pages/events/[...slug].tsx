@@ -1,6 +1,7 @@
 import { Event, PrismaClient } from '@prisma/client';
 import { lastDayOfMonth, set } from 'date-fns';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { EventList, EventSearch } from '../../components/events';
@@ -18,6 +19,15 @@ type EventSearchPageProps = {
 const EventSearchPage: FC<EventSearchPageProps> = (props) => {
   const { events, search, isInvalidSearch } = props;
   const router = useRouter();
+  const displayDate =
+    search &&
+    new Date(Number(search?.year), Number(search?.month)).toLocaleDateString(
+      'en-GB',
+      {
+        year: 'numeric',
+        month: 'long',
+      }
+    );
 
   const onSearchHandler = (year: string, month: string) => {
     const fullPath = `/events/${year}/${month}`;
@@ -25,36 +35,50 @@ const EventSearchPage: FC<EventSearchPageProps> = (props) => {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col items-center">
-        {
-          <>
-            <div className="flex-none mb-8">
-              <EventSearch
-                onSearch={onSearchHandler}
-                defaultYear={search?.year}
-                defaultMonth={search?.month}
-              />
-            </div>
+    <>
+      <Head>
+        <title>Event search</title>
+        <meta
+          name="description"
+          content={
+            displayDate
+              ? `All events happening in ${displayDate}.`
+              : `Search for events happening in specific months.`
+          }
+        />
+      </Head>
 
-            <div className="flex-1">
-              {isInvalidSearch && (
-                <Alert type="error" message="Invalid search parameters!" />
-              )}
-
-              {!isInvalidSearch && !events.length && (
-                <Alert
-                  type="default"
-                  message="No events found for the selected period."
+      <div className="container mx-auto">
+        <div className="flex flex-col items-center">
+          {
+            <>
+              <div className="flex-none mb-8">
+                <EventSearch
+                  onSearch={onSearchHandler}
+                  defaultYear={search?.year}
+                  defaultMonth={search?.month}
                 />
-              )}
+              </div>
 
-              {!!events.length && <EventList items={events} />}
-            </div>
-          </>
-        }
+              <div className="flex-1">
+                {isInvalidSearch && (
+                  <Alert type="error" message="Invalid search parameters!" />
+                )}
+
+                {!isInvalidSearch && !events.length && (
+                  <Alert
+                    type="default"
+                    message="No events found for the selected period."
+                  />
+                )}
+
+                {!!events.length && <EventList items={events} />}
+              </div>
+            </>
+          }
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

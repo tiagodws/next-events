@@ -1,5 +1,6 @@
 import { Event, PrismaClient } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import { FC } from 'react';
 import { EventDetail } from '../../components/events';
@@ -13,11 +14,18 @@ const EventDetailPage: FC<EventDetailPageProps> = (props) => {
   const { event } = props;
 
   return (
-    <div className="container mx-auto">
-      {!event && <Loading />}
+    <>
+      <Head>
+        <title>{event?.title}</title>
+        <meta name="description" content={event?.description} />
+      </Head>
 
-      {event && <EventDetail {...event} />}
-    </div>
+      <div className="container mx-auto">
+        {!event && <Loading />}
+
+        {event && <EventDetail {...event} />}
+      </div>
+    </>
   );
 };
 
