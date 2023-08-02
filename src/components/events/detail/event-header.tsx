@@ -21,18 +21,19 @@ export const EventDetail: FC<EventDetailProps> = (props) => {
 
   return (
     <div className="hero ">
-      <div className="hero-content flex-col lg:flex-row">
-        <div className="relative w-full lg:w-40 rounded-lg shadow-2xl h-40 lg:h-60 lg:mr-8 overflow-hidden">
+      <div className="hero-content flex-col">
+        <div className="relative w-full rounded-lg shadow-2xl h-40 overflow-hidden">
           <Image
             src={imageUrl}
             alt={title}
-            fill
-            style={{ objectFit: 'cover' }}
+            className="w-full"
+            width={400}
+            height={200}
           />
         </div>
 
         <div>
-          <h1 className="text-5xl font-bold pb-4 sm:max-lg:mt-4">{title}</h1>
+          <h1 className="text-5xl font-bold pb-4 mt-4">{title}</h1>
 
           <div className="pb-4">
             <div className="flex items-center">

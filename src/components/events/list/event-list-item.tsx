@@ -32,8 +32,14 @@ export const EventListItem: FC<EventListItemProps> = (props) => {
       href={detailLink}
       className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
-      <figure className="relative overflow-hidden rounded-t-none  h-20">
-        <Image src={imageUrl} alt={title} fill style={{ objectFit: 'cover' }} />
+      <figure className="relative overflow-hidden rounded-t-none h-20">
+        <Image
+          src={imageUrl}
+          alt={title}
+          className="w-full"
+          width={200}
+          height={80}
+        />
       </figure>
 
       <div className="card-body">

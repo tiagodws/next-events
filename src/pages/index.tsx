@@ -1,6 +1,5 @@
 import { Event, PrismaClient } from '@prisma/client';
 import { GetStaticProps } from 'next';
-import Head from 'next/head';
 import { FC } from 'react';
 import { EventList } from '../components/events';
 
@@ -13,14 +12,6 @@ const HomePage: FC<HomePageProps> = (props) => {
 
   return (
     <>
-      <Head>
-        <title>NextJS Events</title>
-        <meta
-          name="description"
-          content="Find interesting events for your personal development!"
-        />
-      </Head>
-
       <div className="container mx-auto">
         <div className="flex flex-col items-center">
           <div className="flex-1">
