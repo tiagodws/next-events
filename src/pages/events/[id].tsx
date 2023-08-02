@@ -1,27 +1,20 @@
 import { Event, PrismaClient } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { FC } from 'react';
 import { EventDetail } from '../../components/events';
-import { Alert, Loading } from '../../components/ui';
+import { Loading } from '../../components/ui';
 
 type EventDetailPageProps = {
-  event: Event;
+  event?: Event;
 };
 
 const EventDetailPage: FC<EventDetailPageProps> = (props) => {
   const { event } = props;
-  const router = useRouter();
-  const { id } = router.query;
 
   return (
     <div className="container mx-auto">
-      {!id && <Loading />}
-
-      {!event && id && (
-        <Alert message="This event does not exist!" type="error" />
-      )}
+      {!event && <Loading />}
 
       {event && <EventDetail {...event} />}
     </div>
@@ -50,12 +43,15 @@ export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const prisma = new PrismaClient();
-  const id = await prisma.event.findMany({ select: { id: true } });
+  const id = await prisma.event.findMany({
+    select: { id: true },
+    where: { isFeatured: true },
+  });
   const paths = id.map((event) => ({ params: { id: event.id } }));
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
