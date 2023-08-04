@@ -1,4 +1,5 @@
 import { EventList } from '@/components/events';
+import { NewsletterForm } from '@/components/newsletter-form';
 import { Event, PrismaClient } from '@prisma/client';
 import { GetStaticProps } from 'next';
 import { FC } from 'react';
@@ -14,6 +15,10 @@ const HomePage: FC<HomePageProps> = (props) => {
     <>
       <div className="container mx-auto">
         <div className="flex flex-col items-center">
+          <div className="flex-none mb-8">
+            <NewsletterForm />
+          </div>
+
           <div className="flex-1">
             <EventList items={events} />
           </div>

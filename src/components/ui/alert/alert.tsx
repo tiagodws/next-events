@@ -7,9 +7,11 @@ import {
 } from '@heroicons/react/24/outline';
 import { FC } from 'react';
 
-type AlertProps = {
+type AlertType = 'default' | 'info' | 'warning' | 'error' | 'success';
+
+export type AlertProps = {
   message: string;
-  type?: 'default' | 'info' | 'warning' | 'error' | 'success';
+  type?: AlertType;
 };
 
 const icon = {
