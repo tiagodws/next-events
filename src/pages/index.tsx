@@ -1,7 +1,7 @@
+import { EventList } from '@/components/events';
 import { Event, PrismaClient } from '@prisma/client';
 import { GetStaticProps } from 'next';
 import { FC } from 'react';
-import { EventList } from '../components/events';
 
 type HomePageProps = {
   events: Event[];

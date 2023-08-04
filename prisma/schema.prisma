@@ -13,13 +13,36 @@ datasource db {
 }
 
 model Event {
-  id          String   @id
+  id          String    @id @default(uuid()) @db.Uuid
+  slug        String    @unique
   title       String
   description String
   location    String
-  date        DateTime @db.Date
-  imageUrl    String
-  isFeatured  Boolean  @map("is_featured")
+  date        DateTime  @db.Date
+  imageUrl    String    @map("image_url")
+  isFeatured  Boolean   @map("is_featured")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  comments    Comment[]
 
   @@map("event")
+}
+
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String   @map("event_id") @db.Uuid
+  email     String
+  name      String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("comment")
+}
+
+model NewsletterSubscription {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscription")
 }
