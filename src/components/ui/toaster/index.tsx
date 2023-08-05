@@ -1,2 +1,2 @@
-export * from './toaster-provider';
-export * from './use-toaster';
+export * from './toast';
+export * from './toaster';

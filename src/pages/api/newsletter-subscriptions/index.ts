@@ -2,6 +2,7 @@ import { ApiResponse } from '@/types';
 import { NewsletterSubscription, PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
+import { fromZodError } from 'zod-validation-error';
 
 type ResponseData = ApiResponse<NewsletterSubscription>;
 
@@ -14,20 +15,29 @@ const handler = async (
   res: NextApiResponse<ResponseData>
 ) => {
   if (req.method !== 'POST') {
-    res.status(405);
+    res.status(405).json({ error: { message: 'Method not allowed' } });
     return;
   }
 
-  if (!bodySchema.parse(req.body)) {
-    res.status(400);
+  const bodyResult = bodySchema.safeParse(req.body);
+
+  if (!bodyResult.success) {
+    res.status(400).json({
+      error: {
+        message: fromZodError(bodyResult.error).message,
+        errors: bodyResult.error.errors,
+      },
+    });
     return;
   }
 
-  const body = bodySchema.parse(req.body);
+  const body = bodyResult.data;
   const prisma = new PrismaClient();
 
-  const data = await prisma.newsletterSubscription.create({
-    data: { email: body.email },
+  const data = await prisma.newsletterSubscription.upsert({
+    create: { email: body.email },
+    update: { email: body.email },
+    where: { email: body.email },
   });
 
   res.status(201).json({ data });

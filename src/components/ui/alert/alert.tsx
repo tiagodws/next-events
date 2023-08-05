@@ -1,17 +1,17 @@
+import { StatusType } from '@/types';
 import {
   ChatBubbleBottomCenterTextIcon,
   CheckCircleIcon,
   ExclamationTriangleIcon,
+  FaceFrownIcon,
   InformationCircleIcon,
-  XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { FC } from 'react';
 
-type AlertType = 'default' | 'info' | 'warning' | 'error' | 'success';
-
 export type AlertProps = {
-  message: string;
-  type?: AlertType;
+  id?: string;
+  message: string | JSX.Element | null;
+  statusType?: StatusType;
 };
 
 const icon = {
@@ -20,11 +20,11 @@ const icon = {
   ),
   info: <InformationCircleIcon strokeWidth={2} className="w-6 h-6" />,
   warning: <ExclamationTriangleIcon strokeWidth={2} className="w-6 h-6" />,
-  error: <XCircleIcon strokeWidth={2} className="w-6 h-6" />,
+  error: <FaceFrownIcon strokeWidth={2} className="w-6 h-6" />,
   success: <CheckCircleIcon strokeWidth={2} className="w-6 h-6" />,
 };
 
-const alertClasses = {
+const statusTypeClasses = {
   default: '',
   info: 'alert-info',
   warning: 'alert-warning',
@@ -33,11 +33,11 @@ const alertClasses = {
 };
 
 export const Alert: FC<AlertProps> = (props) => {
-  const { message, type = 'default' } = props;
+  const { id, message, statusType = 'default' } = props;
 
   return (
-    <div className={`alert ${alertClasses[type]}`}>
-      {icon[type]}
+    <div id={id} className={`alert ${statusTypeClasses[statusType]}`}>
+      {icon[statusType]}
       <span>{message}</span>
     </div>
   );

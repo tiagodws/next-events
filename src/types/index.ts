@@ -4,3 +4,4 @@ export type {
   Pagination,
 } from './paginated-api-response';
 export type { PaginationRequest } from './pagination-request';
+export type { StatusType } from './status-type';

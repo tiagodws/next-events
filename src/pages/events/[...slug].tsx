@@ -62,12 +62,15 @@ const EventSearchPage: FC<EventSearchPageProps> = (props) => {
 
               <div className="flex-1">
                 {isInvalidSearch && (
-                  <Alert type="error" message="Invalid search parameters!" />
+                  <Alert
+                    statusType="error"
+                    message="Invalid search parameters!"
+                  />
                 )}
 
                 {!isInvalidSearch && !events.length && (
                   <Alert
-                    type="default"
+                    statusType="default"
                     message="No events found for the selected period."
                   />
                 )}
