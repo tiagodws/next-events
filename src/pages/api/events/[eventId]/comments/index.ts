@@ -1,10 +1,7 @@
-import {
-  ApiResponse,
-  PaginatedApiResponse,
-  Pagination,
-  PaginationRequest,
-} from '@/types';
-import { Comment, PrismaClient } from '@prisma/client';
+import { createComment } from '@/lib/create-comment';
+import { getComments } from '@/lib/get-comments';
+import { ApiResponse, PaginatedApiResponse, PaginationRequest } from '@/types';
+import { Comment } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 
@@ -21,7 +18,7 @@ const handler = async (
     case 'POST':
       return postHandler(req, res);
     default:
-      res.status(405);
+      return res.status(405);
   }
 };
 
@@ -30,39 +27,17 @@ const getHandler = async (
   res: NextApiResponse<GetResponseData>
 ) => {
   const query = req.query;
-  const { eventId, page, limit } = query;
+  const { eventId, pageNumber, pageSize } = query;
   const paginationRequest: PaginationRequest = {
-    pageNumber: Math.max(Number(page), 1) || 1,
-    pageSize: Math.min(Number(limit) || 10, 10),
+    pageNumber: Number(pageNumber),
+    pageSize: Number(pageSize),
   };
+  const [comments, pagination] = await getComments(
+    eventId as string,
+    paginationRequest
+  );
 
-  const prisma = new PrismaClient();
-  const where = { eventId: eventId as string };
-  const take = paginationRequest.pageSize;
-  const skip = paginationRequest.pageNumber - 1 * paginationRequest.pageSize;
-
-  const [count, data] = await prisma.$transaction([
-    prisma.comment.count({ where }),
-    prisma.comment.findMany({
-      skip,
-      take,
-      where,
-    }),
-  ]);
-
-  const pagination: Pagination = {
-    pageNumber: paginationRequest.pageNumber,
-    pageCount: Math.ceil(count / paginationRequest.pageSize),
-    pageSize: paginationRequest.pageSize,
-    totalCount: count,
-  };
-
-  const responseData: GetResponseData = {
-    data,
-    metadata: { pagination },
-  };
-
-  res.status(200).json(responseData);
+  res.status(200).json({ data: comments, metadata: { pagination } });
 };
 
 const bodySchema = z.object({
@@ -81,37 +56,24 @@ const postHandler = async (
   const bodyResult = bodySchema.safeParse(req.body);
 
   if (!queryResult.success) {
-    res
-      .status(404)
-      .json({
-        error: { message: 'Not found', errors: queryResult.error.errors },
-      });
+    res.status(400).json({
+      error: { message: 'Invalid event ID', errors: queryResult.error.errors },
+    });
     return;
   }
 
   if (!bodyResult.success) {
-    res
-      .status(400)
-      .json({
-        error: { message: 'Invalid request', errors: bodyResult.error.errors },
-      });
+    res.status(400).json({
+      error: { message: 'Invalid request', errors: bodyResult.error.errors },
+    });
     return;
   }
 
   const eventId = queryResult.data[0];
   const body = bodyResult.data;
-  const prisma = new PrismaClient();
+  const comment = await createComment(eventId, body);
 
-  const data = await prisma.comment.create({
-    data: {
-      eventId,
-      email: body.email,
-      name: body.name,
-      content: body.content,
-    },
-  });
-
-  res.status(201).json({ data });
+  res.status(201).json({ data: comment });
 };
 
 export default handler;

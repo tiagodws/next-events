@@ -1,5 +1,6 @@
 import { EventList, EventSearch } from '@/components/events';
-import { Event, PrismaClient } from '@prisma/client';
+import { getEvents } from '@/lib/get-events';
+import { Event } from '@prisma/client';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -44,8 +45,7 @@ const EventListPage: FC<EventListPageProps> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps<EventListPageProps> = async () => {
-  const prisma = new PrismaClient();
-  const events = await prisma.event.findMany();
+  const [events] = await getEvents();
 
   return {
     props: { events },

@@ -1,6 +1,7 @@
 import { EventList } from '@/components/events';
 import { NewsletterForm } from '@/components/newsletter-form';
-import { Event, PrismaClient } from '@prisma/client';
+import { getFeaturedEvents } from '@/lib/get-featured-events';
+import { Event } from '@prisma/client';
 import { GetStaticProps } from 'next';
 import { FC } from 'react';
 
@@ -29,10 +30,7 @@ const HomePage: FC<HomePageProps> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  const prisma = new PrismaClient();
-  const events = await prisma.event.findMany({
-    where: { isFeatured: true },
-  });
+  const [events] = await getFeaturedEvents();
 
   return {
     props: { events },

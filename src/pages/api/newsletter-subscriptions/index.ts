@@ -1,46 +1,44 @@
+import { createSubscription } from '@/lib/create-subscription';
 import { ApiResponse } from '@/types';
-import { NewsletterSubscription, PrismaClient } from '@prisma/client';
+import { NewsletterSubscription } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
-import { fromZodError } from 'zod-validation-error';
 
-type ResponseData = ApiResponse<NewsletterSubscription>;
+type PostResponseData = ApiResponse<NewsletterSubscription>;
+
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<PostResponseData>
+) => {
+  switch (req.method) {
+    case 'POST':
+      return postHandler(req, res);
+    default:
+      return res.status(405);
+  }
+};
 
 const bodySchema = z.object({
   email: z.string().email(),
 });
 
-const handler = async (
+const postHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<PostResponseData>
 ) => {
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: { message: 'Method not allowed' } });
-    return;
-  }
-
   const bodyResult = bodySchema.safeParse(req.body);
 
   if (!bodyResult.success) {
     res.status(400).json({
-      error: {
-        message: fromZodError(bodyResult.error).message,
-        errors: bodyResult.error.errors,
-      },
+      error: { message: 'Invalid request', errors: bodyResult.error.errors },
     });
     return;
   }
 
   const body = bodyResult.data;
-  const prisma = new PrismaClient();
+  const newsletterSubscription = await createSubscription(body);
 
-  const data = await prisma.newsletterSubscription.upsert({
-    create: { email: body.email },
-    update: { email: body.email },
-    where: { email: body.email },
-  });
-
-  res.status(201).json({ data });
+  res.status(201).json({ data: newsletterSubscription });
 };
 
 export default handler;

@@ -38,8 +38,6 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
     onSearch(selectedYear, selectedMonth);
   };
 
-  console.log(defaultYear, defaultMonth);
-
   return (
     <form className="join" onSubmit={submitHandler}>
       <select

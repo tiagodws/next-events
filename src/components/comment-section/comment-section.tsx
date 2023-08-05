@@ -1,15 +1,38 @@
-import { Pagination, PaginationRequest } from '@/types';
-import { FC, Fragment } from 'react';
+import { PaginatedApiResponse, PaginationRequest } from '@/types';
+import { Comment } from '@prisma/client';
+import { FC, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 type CommentSectionProps = {
-  comments: Comment[];
-  pagination: Pagination;
-  onAddComment: (comment: Comment) => void;
-  onPaginationChange: (pagination: PaginationRequest) => void;
+  eventId: string;
+  initialCommentData: PaginatedApiResponse<Comment[]>;
 };
 
 export const CommentSection: FC<CommentSectionProps> = (props) => {
-  const { comments, pagination, onAddComment, onPaginationChange } = props;
+  const { eventId, initialCommentData } = props;
+  const [pagination, setPagination] = useState<PaginationRequest>(
+    initialCommentData.metadata.pagination
+  );
+  const [commentData, setCommentData] =
+    useState<PaginatedApiResponse<Comment[]>>(initialCommentData);
+  const url = `/api/events/${eventId}/comments?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`;
 
-  return <Fragment>Hello</Fragment>;
+  const { data, error, isLoading } = useSWR<PaginatedApiResponse<Comment[]>>(
+    url,
+    () => fetch(url).then((res) => res.json())
+  );
+
+  useEffect(() => {
+    if (data) {
+      setCommentData(data);
+    }
+  }, [data]);
+
+  return (
+    <div className="chat chat-start">
+      <div className="chat-bubble chat-bubble-primary">
+        What kind of nonsense is this
+      </div>
+    </div>
+  );
 };

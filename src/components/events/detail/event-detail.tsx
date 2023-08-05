@@ -1,58 +1,30 @@
-import { CalendarIcon, MapPinIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
+import { PaginatedApiResponse } from '@/types';
+import { Comment, Event } from '@prisma/client';
 import { FC } from 'react';
+import { CommentSection } from '../../comment-section';
+import { EventHeader } from './event-header';
 
 type EventDetailProps = {
-  title: string;
-  imageUrl: string;
-  date: Date;
-  location: string;
-  description: string;
+  event: Event;
+  initialCommentData: PaginatedApiResponse<Comment[]>;
 };
 
 export const EventDetail: FC<EventDetailProps> = (props) => {
-  const { title, imageUrl, date, location, description } = props;
-  const displayDate = new Date(date).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const { event, initialCommentData } = props;
 
   return (
-    <div className="hero ">
-      <div className="hero-content flex-col">
-        <div className="relative w-full rounded-lg shadow-2xl h-40 overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={title}
-            className="w-full"
-            width={400}
-            height={200}
-          />
-        </div>
+    <div className="container mx-auto max-w-3xl">
+      <EventHeader event={event} />
 
-        <div>
-          <h1 className="text-5xl font-bold pb-4 mt-4">{title}</h1>
+      <p className="mt-8 prose max-w-none">{event.description}</p>
 
-          <div className="pb-4">
-            <div className="flex items-center">
-              <div className="flex-0 mr-1">
-                <CalendarIcon strokeWidth={2} className="h-5 w-5" />
-              </div>
-              <p className="flex-1 prose prose-sm">{displayDate}</p>
-            </div>
+      <div className="divider mt-8" />
 
-            <div className="flex items-center">
-              <div className="flex-0 mr-1">
-                <MapPinIcon strokeWidth={2} className="h-5 w-5" />
-              </div>
-              <p className="flex-1 prose prose-sm">{location}</p>
-            </div>
-          </div>
-
-          <p className="pb-4 prose">{description}</p>
-        </div>
+      <div className="mt-8">
+        <CommentSection
+          eventId={event.id}
+          initialCommentData={initialCommentData}
+        />
       </div>
     </div>
   );

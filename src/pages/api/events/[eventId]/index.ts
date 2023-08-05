@@ -1,5 +1,6 @@
+import { getEventById } from '@/lib/get-event-by-id';
 import { ApiResponse } from '@/types';
-import { Event, PrismaClient } from '@prisma/client';
+import { Event } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 
@@ -11,37 +12,38 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
-  if (req.method !== 'GET') {
-    res.status(405);
-    return;
+  switch (req.method) {
+    case 'GET':
+      return getHandler(req, res);
+    default:
+      return res.status(405);
   }
+};
 
+const getHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>
+) => {
   const queryResult = querySchema.safeParse(req.query);
 
   if (!queryResult.success) {
-    res.status(404).json({
-      error: { message: 'Not found', errors: queryResult.error.errors },
+    res.status(400).json({
+      error: { message: 'Invalid event ID', errors: queryResult.error.errors },
     });
     return;
   }
 
-  const eventId = queryResult.data[0];
-  const prisma = new PrismaClient();
-  const data = await prisma.event.findUnique({
-    where: { id: eventId as string },
-  });
+  const id = queryResult.data[0];
+  const event = await getEventById(id);
 
-  if (!data) {
-    res.status(404);
+  if (!event) {
+    res.status(404).json({
+      error: { message: 'Not found' },
+    });
     return;
   }
 
-  const responseData: ResponseData = {
-    data,
-    metadata: {},
-  };
-
-  res.status(200).json(responseData);
+  res.status(200).json({ data: event });
 };
 
 export default handler;
