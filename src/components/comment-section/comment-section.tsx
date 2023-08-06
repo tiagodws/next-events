@@ -58,7 +58,7 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
               </time>
             </div>
 
-            <div className="prose max-w-none">{comment.content}</div>
+            <div className="mt-2 prose max-w-none">{comment.content}</div>
           </div>
         );
       })}
