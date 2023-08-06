@@ -1,5 +1,5 @@
-import { StatusType } from '@/types';
-import { FC } from 'react';
+import type { StatusType } from '@/types';
+import type { FC } from 'react';
 
 type ButtonProps = {
   text?: string;

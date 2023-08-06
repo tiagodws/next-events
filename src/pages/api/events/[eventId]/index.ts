@@ -1,6 +1,6 @@
 import { getEventById } from '@/lib/get-event';
-import { ApiResponse } from '@/types';
-import { Event } from '@prisma/client';
+import type { ApiResponse } from '@/types';
+import type { Event } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 

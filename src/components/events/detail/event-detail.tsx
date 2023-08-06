@@ -1,6 +1,6 @@
-import { PaginatedApiResponse } from '@/types';
-import { Comment, Event } from '@prisma/client';
-import { FC } from 'react';
+import type { PaginatedApiResponse } from '@/types';
+import type { Comment, Event } from '@prisma/client';
+import type { FC } from 'react';
 import { CommentSection } from '../../comment-section';
 import { EventHeader } from './event-header';
 

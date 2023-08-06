@@ -1,6 +1,6 @@
 import { createSubscription } from '@/lib/create-subscription';
-import { ApiResponse } from '@/types';
-import { NewsletterSubscription } from '@prisma/client';
+import type { ApiResponse } from '@/types';
+import type { NewsletterSubscription } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 

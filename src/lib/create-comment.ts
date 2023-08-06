@@ -1,4 +1,5 @@
-import { Comment, PrismaClient } from '@prisma/client';
+import type { Comment } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 type CreateComment = {
   email: string;

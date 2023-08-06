@@ -1,6 +1,6 @@
 import { getEvents } from '@/lib/get-events';
-import { PaginatedApiResponse, PaginationRequest } from '@/types';
-import { Event } from '@prisma/client';
+import type { PaginatedApiResponse, PaginationRequest } from '@/types';
+import type { Event } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type ResponseData = PaginatedApiResponse<Event[]>;

@@ -1,10 +1,10 @@
 import { EventList, EventSearch } from '@/components/events';
 import { getEvents } from '@/lib/get-events';
-import { Event } from '@prisma/client';
+import type { Event } from '@prisma/client';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type EventListPageProps = {
   events: Event[];

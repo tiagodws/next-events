@@ -1,7 +1,11 @@
 import { createComment } from '@/lib/create-comment';
 import { getComments } from '@/lib/get-comments';
-import { ApiResponse, PaginatedApiResponse, PaginationRequest } from '@/types';
-import { Comment } from '@prisma/client';
+import type {
+  ApiResponse,
+  PaginatedApiResponse,
+  PaginationRequest,
+} from '@/types';
+import type { Comment } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 

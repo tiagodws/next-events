@@ -1,6 +1,7 @@
-import { ApiResponse } from '@/types';
-import { NewsletterSubscription } from '@prisma/client';
-import { FC, FormEvent, useRef, useState } from 'react';
+import type { ApiResponse } from '@/types';
+import type { NewsletterSubscription } from '@prisma/client';
+import type { FC, FormEvent } from 'react';
+import { useRef, useState } from 'react';
 import { z } from 'zod';
 import { Button, toast } from '../ui';
 

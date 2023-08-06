@@ -1,4 +1,5 @@
-import { FC, FormEvent, useRef } from 'react';
+import type { FC, FormEvent } from 'react';
+import { useRef } from 'react';
 import { Button } from '../../ui';
 
 const years = ['2023', '2022', '2021'];

@@ -1,4 +1,4 @@
-import { StatusType } from '@/types';
+import type { StatusType } from '@/types';
 import {
   ChatBubbleBottomCenterTextIcon,
   CheckCircleIcon,
@@ -6,7 +6,7 @@ import {
   FaceFrownIcon,
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 export type AlertProps = {
   id?: string;

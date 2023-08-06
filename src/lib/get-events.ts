@@ -1,5 +1,6 @@
-import { Event, PrismaClient } from '@prisma/client';
-import { Pagination, PaginationRequest } from '../types';
+import type { Pagination, PaginationRequest } from '@/types';
+import type { Event } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 type GetEvents = [data: Event[], pagination: Pagination];
 

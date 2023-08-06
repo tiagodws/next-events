@@ -1,7 +1,8 @@
-import { PaginatedApiResponse, PaginationRequest } from '@/types';
-import { Comment } from '@prisma/client';
+import type { PaginatedApiResponse, PaginationRequest } from '@/types';
+import type { Comment } from '@prisma/client';
 import { format } from 'date-fns';
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { format as timeAgoFormat } from 'timeago.js';
 import { CommentForm } from './comment-form';

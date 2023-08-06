@@ -1,9 +1,9 @@
-import { Event } from '@prisma/client';
+import type { Event } from '@prisma/client';
 import { format } from 'date-fns';
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { EventList, EventSearch } from '../../components/events';
 import { Alert } from '../../components/ui';
 import { getMonthEvents } from '../../lib/get-month-events';

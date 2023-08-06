@@ -1,5 +1,6 @@
 import { toast as rhtToast } from 'react-hot-toast';
-import { Alert, AlertProps } from '../alert';
+import type { AlertProps } from '../alert';
+import { Alert } from '../alert';
 
 export const toast = (props: AlertProps) => {
   return rhtToast.custom(

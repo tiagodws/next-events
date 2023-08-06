@@ -1,6 +1,6 @@
-import { Event } from '@prisma/client';
+import type { Event } from '@prisma/client';
 import Image from 'next/image';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { EventLogistics } from '../event-logistics';
 
 type EventHeaderProps = {

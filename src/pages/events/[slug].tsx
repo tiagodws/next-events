@@ -3,12 +3,12 @@ import { Loading } from '@/components/ui';
 import { getComments } from '@/lib/get-comments';
 import { getEventBySlug } from '@/lib/get-event';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
-import { PaginatedApiResponse } from '@/types';
-import { Comment, Event } from '@prisma/client';
+import type { PaginatedApiResponse } from '@/types';
+import type { Comment, Event } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { ParsedUrlQuery } from 'querystring';
-import { FC } from 'react';
+import type { ParsedUrlQuery } from 'querystring';
+import type { FC } from 'react';
 import { z } from 'zod';
 
 type EventDetailPageProps = {

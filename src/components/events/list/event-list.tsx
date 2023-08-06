@@ -1,5 +1,5 @@
-import { Event } from '@prisma/client';
-import { FC } from 'react';
+import type { Event } from '@prisma/client';
+import type { FC } from 'react';
 import { EventListItem } from './event-list-item';
 
 type EventListProps = {

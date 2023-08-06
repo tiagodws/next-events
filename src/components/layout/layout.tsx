@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
-import { FC, Fragment, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
+import { Fragment } from 'react';
 import { Toaster } from '../ui';
 import { MainHeader } from './main-header';
 

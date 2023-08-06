@@ -1,7 +1,5 @@
-import { ApiResponse } from '@/types';
-import { NewsletterSubscription, PrismaClient } from '@prisma/client';
-
-type CreateResponse = ApiResponse<NewsletterSubscription>;
+import type { NewsletterSubscription } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 type CreateSubscription = {
   email: string;

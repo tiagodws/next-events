@@ -1,6 +1,7 @@
-import { ApiResponse } from '@/types';
-import { Comment } from '@prisma/client';
-import { FC, FormEvent, useRef } from 'react';
+import type { ApiResponse } from '@/types';
+import type { Comment } from '@prisma/client';
+import type { FC } from 'react';
+import { FormEvent, useRef } from 'react';
 import useSWRMutation from 'swr/mutation';
 import { z } from 'zod';
 import { Button, toast } from '../ui';

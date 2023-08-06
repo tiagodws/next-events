@@ -1,6 +1,6 @@
 import { CalendarIcon, MapPinIcon } from '@heroicons/react/24/solid';
 import { format } from 'date-fns';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type EventLogisticsProps = {
   date: Date | string;

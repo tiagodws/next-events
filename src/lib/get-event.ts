@@ -1,4 +1,5 @@
-import { Event, PrismaClient } from '@prisma/client';
+import type { Event } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 export const getEventById = async (id: string): Promise<Event | null> => {
   const prisma = new PrismaClient();

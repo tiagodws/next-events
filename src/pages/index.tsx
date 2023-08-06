@@ -1,9 +1,9 @@
 import { EventList } from '@/components/events';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
-import { Event } from '@prisma/client';
-import { GetStaticProps } from 'next';
-import { FC } from 'react';
+import type { Event } from '@prisma/client';
+import type { GetStaticProps } from 'next';
+import type { FC } from 'react';
 
 type HomePageProps = {
   events: Event[];
