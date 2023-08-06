@@ -40,7 +40,7 @@ export const NewsletterForm: FC = () => {
     if (!result.success) {
       toast({
         id: 'invalid-email',
-        message: 'Please enter a valid email address.',
+        message: 'Please enter a valid e-mail address.',
         statusType: 'warning',
       });
       return;
