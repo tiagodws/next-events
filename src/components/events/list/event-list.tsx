@@ -13,7 +13,7 @@ export const EventList: FC<EventListProps> = (props) => {
     <ul className="w-full">
       {items.map((event) => (
         <li key={event.id} className="mb-4">
-          <EventListItem {...event} />
+          <EventListItem event={event} />
         </li>
       ))}
     </ul>

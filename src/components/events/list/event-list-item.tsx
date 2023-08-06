@@ -1,21 +1,17 @@
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { Event } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import { EventLogistics } from '../event-logistics';
 
 type EventListItemProps = {
-  id: string;
-  title: string;
-  imageUrl: string;
-  date: Date;
-  location: string;
-  isFeatured: boolean;
+  event: Event;
 };
 
 export const EventListItem: FC<EventListItemProps> = (props) => {
-  const { id, title, imageUrl, date, location, isFeatured } = props;
-  const detailLink = `/events/${id}`;
+  const { slug, title, imageUrl, date, location, isFeatured } = props.event;
+  const detailLink = `/events/${slug}`;
 
   return (
     <Link

@@ -1,7 +1,7 @@
 import { EventDetail } from '@/components/events';
 import { Loading } from '@/components/ui';
 import { getComments } from '@/lib/get-comments';
-import { getEventById } from '@/lib/get-event-by-id';
+import { getEventBySlug } from '@/lib/get-event';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
 import { PaginatedApiResponse } from '@/types';
 import { Comment, Event } from '@prisma/client';
@@ -38,25 +38,26 @@ const EventDetailPage: FC<EventDetailPageProps> = (props) => {
 };
 
 interface Params extends ParsedUrlQuery {
-  id: string;
+  slug: string;
 }
 
 export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (
   context
 ) => {
-  const { id } = context.params as Params;
-  const validation = z.string().uuid().safeParse(id);
+  const { slug } = context.params as Params;
+  const validation = z.string().safeParse(slug);
 
   if (!validation.success) {
     return { notFound: true };
   }
 
-  const event = await getEventById(id);
-  const [comments, commentsPagination] = await getComments(id);
+  const event = await getEventBySlug(validation.data);
 
   if (!event) {
     return { notFound: true };
   }
+
+  const [comments, commentsPagination] = await getComments(event?.id);
 
   return {
     props: {
@@ -71,7 +72,7 @@ export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const [events] = await getFeaturedEvents();
-  const paths = events.map((event) => ({ params: { id: event.id } }));
+  const paths = events.map((event) => ({ params: { slug: event.slug } }));
 
   return {
     paths,
