@@ -70,12 +70,13 @@ export const NewsletterForm: FC = () => {
   };
 
   return (
-    <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-      <h4 className="prose mb-2">Subscribe to stay up-to-date!</h4>
-      <div className="join">
+    <form onSubmit={handleSubmit}>
+      <h4 className="prose mb-2 text-center">Subscribe to stay up-to-date!</h4>
+
+      <div className="join w-full flex">
         <input
           id="email"
-          className="input input-bordered join-item"
+          className="input input-bordered join-item min-w-0 flex-1"
           placeholder="Email"
           ref={emailRef}
           disabled={isLoading}
@@ -83,7 +84,7 @@ export const NewsletterForm: FC = () => {
 
         <Button
           text="Subscribe"
-          className="join-item"
+          className="join-item flex-0"
           type="submit"
           isLoading={isLoading}
         />

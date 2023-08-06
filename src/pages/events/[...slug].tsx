@@ -42,38 +42,27 @@ const EventSearchPage: FC<EventSearchPageProps> = (props) => {
         />
       </Head>
 
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center">
-          {
-            <>
-              <div className="flex-none mb-8">
-                <EventSearch
-                  onSearch={onSearchHandler}
-                  defaultYear={search?.year}
-                  defaultMonth={search?.month}
-                />
-              </div>
-
-              <div className="flex-1">
-                {isInvalidSearch && (
-                  <Alert
-                    statusType="error"
-                    message="Invalid search parameters!"
-                  />
-                )}
-
-                {!isInvalidSearch && !events.length && (
-                  <Alert
-                    statusType="default"
-                    message="No events found for the selected period."
-                  />
-                )}
-
-                {!!events.length && <EventList items={events} />}
-              </div>
-            </>
-          }
+      <div className="container max-w-lg mx-auto px-4">
+        <div className="mb-8">
+          <EventSearch
+            onSearch={onSearchHandler}
+            defaultYear={search?.year}
+            defaultMonth={search?.month}
+          />
         </div>
+
+        {isInvalidSearch && (
+          <Alert statusType="error" message="Invalid search parameters!" />
+        )}
+
+        {!isInvalidSearch && !events.length && (
+          <Alert
+            statusType="default"
+            message="No events found for the selected period."
+          />
+        )}
+
+        {!!events.length && <EventList items={events} />}
       </div>
     </>
   );

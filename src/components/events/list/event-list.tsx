@@ -10,7 +10,7 @@ export const EventList: FC<EventListProps> = (props) => {
   const { items } = props;
 
   return (
-    <ul className="flex flex-col items-center">
+    <ul className="w-full">
       {items.map((event) => (
         <li key={event.id} className="mb-4">
           <EventListItem {...event} />

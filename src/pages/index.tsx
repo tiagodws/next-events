@@ -14,16 +14,12 @@ const HomePage: FC<HomePageProps> = (props) => {
 
   return (
     <>
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center">
-          <div className="flex-none mb-8">
-            <NewsletterForm />
-          </div>
-
-          <div className="flex-1">
-            <EventList items={events} />
-          </div>
+      <div className="container max-w-lg mx-auto px-4">
+        <div className="mb-8">
+          <NewsletterForm />
         </div>
+
+        <EventList items={events} />
       </div>
     </>
   );

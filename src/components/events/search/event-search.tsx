@@ -1,4 +1,5 @@
 import { FC, FormEvent, useRef } from 'react';
+import { Button } from '../../ui';
 
 const years = ['2023', '2022', '2021'];
 const months = [
@@ -39,14 +40,14 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
   };
 
   return (
-    <form className="join" onSubmit={submitHandler}>
+    <form className="join flex" onSubmit={submitHandler}>
       <select
         id="year"
         ref={yearInputRef}
-        className="select select-bordered join-item"
+        className="select select-bordered join-item flex-1 min-w-0"
         defaultValue={defaultYear}
       >
-        <option disabled hidden value="">
+        <option disabled value="">
           Year
         </option>
 
@@ -60,10 +61,10 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
       <select
         id="month"
         ref={monthInputRef}
-        className="select select-bordered join-item"
+        className="select select-bordered join-item flex-1 min-w-0"
         defaultValue={defaultMonth}
       >
-        <option disabled hidden value="">
+        <option disabled value="">
           Month
         </option>
 
@@ -74,11 +75,7 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
         ))}
       </select>
 
-      <div className="indicator">
-        <button type="submit" className="btn join-item">
-          Search
-        </button>
-      </div>
+      <Button text="Search" className="join-item flex-0" type="submit" />
     </form>
   );
 };

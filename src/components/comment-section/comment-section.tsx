@@ -26,7 +26,7 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
     (url) => fetch(`${url}?${queryParams}`).then((res) => res.json())
   );
 
-  const progressClasses = isValidating ? 'opacity-100' : 'opacity-0';
+  const progressClasses = isValidating ? 'opacity-30' : 'opacity-0';
 
   useEffect(() => {
     if (data) {
