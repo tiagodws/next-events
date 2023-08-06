@@ -8,7 +8,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>NextJS Events</title>
+        <title>Next Events</title>
         <meta
           name="description"
           content="Find interesting events for your personal development!"

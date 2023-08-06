@@ -22,7 +22,7 @@ const EventListPage: FC<EventListPageProps> = (props) => {
   return (
     <>
       <Head>
-        <title>NextJS Events - All events</title>
+        <title>Next Events - All events</title>
         <meta
           name="description"
           content="Find interesting events for your personal development!"
