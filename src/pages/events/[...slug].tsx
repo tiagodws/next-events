@@ -1,11 +1,12 @@
-import { Event, PrismaClient } from '@prisma/client';
-import { format, lastDayOfMonth, set } from 'date-fns';
+import { Event } from '@prisma/client';
+import { format } from 'date-fns';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { EventList, EventSearch } from '../../components/events';
 import { Alert } from '../../components/ui';
+import { getMonthEvents } from '../../lib/get-month-events';
 
 type EventSearchPageProps = {
   events: Event[];
@@ -72,7 +73,6 @@ export const getServerSideProps: GetServerSideProps<
   EventSearchPageProps
 > = async (context) => {
   const slug = context.params?.slug;
-
   const year = slug?.[0];
   const month = slug?.[1];
   const yearNumber = Number(year);
@@ -88,26 +88,7 @@ export const getServerSideProps: GetServerSideProps<
     return { props: { events: [], isInvalidSearch: true } };
   }
 
-  const date = new Date(yearNumber, monthNumber - 1);
-  const dateMin = set(date, {
-    date: 1,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    milliseconds: 0,
-  });
-  const dateMax = set(date, {
-    date: lastDayOfMonth(date).getDate(),
-    hours: 23,
-    minutes: 59,
-    seconds: 59,
-    milliseconds: 999,
-  });
-
-  const prisma = new PrismaClient();
-  const events = await prisma.event.findMany({
-    where: { date: { gte: dateMin, lte: dateMax } },
-  });
+  const [events] = await getMonthEvents({ monthNumber, yearNumber });
 
   return {
     props: { events, search: { year, month } },
