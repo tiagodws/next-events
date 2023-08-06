@@ -13,7 +13,7 @@ export const EventDetail: FC<EventDetailProps> = (props) => {
   const { event, initialCommentData } = props;
 
   return (
-    <div className="container mx-auto max-w-3xl pb-8 px-4">
+    <div className="w-full">
       <EventHeader event={event} />
 
       <p className="mt-8 prose max-w-none">{event.description}</p>
