@@ -15,7 +15,7 @@ export const getComments = async (
 
   const prisma = new PrismaClient();
   const where = { eventId };
-  const take = paginationRequest.pageSize;
+  const take = sanitizedPaginationRequest.pageSize;
   const skip =
     (sanitizedPaginationRequest.pageNumber - 1) *
     sanitizedPaginationRequest.pageSize;

@@ -16,7 +16,7 @@ export const getMonthEvents = async (
   };
 
   const prisma = new PrismaClient();
-  const take = paginationRequest.pageSize;
+  const take = sanitizedPaginationRequest.pageSize;
   const skip =
     (sanitizedPaginationRequest.pageNumber - 1) *
     sanitizedPaginationRequest.pageSize;
