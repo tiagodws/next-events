@@ -25,6 +25,7 @@ export const getComments = async (
       skip,
       take,
       where,
+      orderBy: { createdAt: 'desc' },
     }),
   ]);
 

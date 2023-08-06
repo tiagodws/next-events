@@ -46,7 +46,7 @@ const bodySchema = z.object({
   content: z.string(),
 });
 
-const querySchema = z.array(z.string().uuid()).length(1);
+const querySchema = z.object({ eventId: z.string().uuid() });
 
 const postHandler = async (
   req: NextApiRequest,
@@ -69,7 +69,7 @@ const postHandler = async (
     return;
   }
 
-  const eventId = queryResult.data[0];
+  const { eventId } = queryResult.data;
   const body = bodyResult.data;
   const comment = await createComment(eventId, body);
 

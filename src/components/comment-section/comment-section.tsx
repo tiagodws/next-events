@@ -1,7 +1,10 @@
 import { PaginatedApiResponse, PaginationRequest } from '@/types';
 import { Comment } from '@prisma/client';
+import { format } from 'date-fns';
 import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { format as timeAgoFormat } from 'timeago.js';
+import { CommentForm } from './comment-form';
 
 type CommentSectionProps = {
   eventId: string;
@@ -15,12 +18,15 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
   );
   const [commentData, setCommentData] =
     useState<PaginatedApiResponse<Comment[]>>(initialCommentData);
-  const url = `/api/events/${eventId}/comments?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`;
+  const queryParams = `pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`;
+  const url = `/api/events/${eventId}/comments`;
 
-  const { data, error, isLoading } = useSWR<PaginatedApiResponse<Comment[]>>(
+  const { data, isValidating } = useSWR<PaginatedApiResponse<Comment[]>>(
     url,
-    () => fetch(url).then((res) => res.json())
+    (url) => fetch(`${url}?${queryParams}`).then((res) => res.json())
   );
+
+  const progressClasses = isValidating ? 'opacity-100' : 'opacity-0';
 
   useEffect(() => {
     if (data) {
@@ -29,10 +35,33 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
   }, [data]);
 
   return (
-    <div className="chat chat-start">
-      <div className="chat-bubble chat-bubble-primary">
-        What kind of nonsense is this
-      </div>
+    <div>
+      <CommentForm eventId={eventId} />
+      <progress
+        className={`progress h-1 w-full mt-5 transition-opacity duration-500 ${progressClasses}`}
+      ></progress>
+
+      {commentData.data?.map((comment) => {
+        return (
+          <div key={comment.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+            <div className="flex items-center">
+              <span className="text-sm font-bold">{comment.name}</span>
+
+              <time
+                className="text-xs opacity-50 ml-2 tooltip"
+                data-tip={format(
+                  new Date(comment.createdAt),
+                  'E, dd MMM yyyy - HH:mm'
+                )}
+              >
+                {timeAgoFormat(comment.createdAt)}
+              </time>
+            </div>
+
+            <div className="prose max-w-none">{comment.content}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

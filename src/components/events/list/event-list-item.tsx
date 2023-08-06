@@ -4,6 +4,7 @@ import {
   MapPinIcon,
   SparklesIcon,
 } from '@heroicons/react/24/solid';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -20,12 +21,7 @@ type EventListItemProps = {
 export const EventListItem: FC<EventListItemProps> = (props) => {
   const { id, title, imageUrl, date, location, isFeatured } = props;
   const detailLink = `/events/${id}`;
-  const displayDate = new Date(date).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const displayDate = format(new Date(date), 'E, dd MMMM yyyy');
 
   return (
     <Link

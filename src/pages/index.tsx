@@ -14,7 +14,7 @@ const HomePage: FC<HomePageProps> = (props) => {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <div className="flex-none mb-8">
             <NewsletterForm />

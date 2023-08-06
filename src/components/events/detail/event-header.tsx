@@ -1,5 +1,6 @@
 import { CalendarIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { Event } from '@prisma/client';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -9,12 +10,7 @@ type EventHeaderProps = {
 
 export const EventHeader: FC<EventHeaderProps> = (props) => {
   const { title, imageUrl, date, location } = props.event;
-  const displayDate = new Date(date).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const displayDate = format(new Date(date), 'E, dd MMMM yyyy');
 
   return (
     <div className="w-full">

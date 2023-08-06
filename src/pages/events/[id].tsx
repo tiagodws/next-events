@@ -26,7 +26,7 @@ const EventDetailPage: FC<EventDetailPageProps> = (props) => {
         <meta name="description" content={event?.description} />
       </Head>
 
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {!event && <Loading />}
 
         {event && (

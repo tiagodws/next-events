@@ -1,6 +1,6 @@
 import { ApiResponse } from '@/types';
 import { NewsletterSubscription } from '@prisma/client';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useRef, useState } from 'react';
 import { z } from 'zod';
 import { Button, toast } from '../ui';
 
@@ -23,11 +23,13 @@ const subscribe = async (email: string) => {
 };
 
 export const NewsletterForm: FC = () => {
-  const [email, setEmail] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const email = emailRef.current?.value;
 
     if (!email) {
       return;
@@ -49,7 +51,8 @@ export const NewsletterForm: FC = () => {
 
       await subscribe(email);
 
-      setEmail('');
+      emailRef.current.value = '';
+
       toast({
         id: 'subscribe-success',
         message: 'You have subscribed!',
@@ -74,8 +77,7 @@ export const NewsletterForm: FC = () => {
           id="email"
           className="input input-bordered join-item"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          ref={emailRef}
           disabled={isLoading}
         />
 
