@@ -4,7 +4,7 @@ import { Button } from '..';
 
 type PaginatorProps = {
   pagination: Pagination;
-  onPageChange: (pageNumber: number) => void;
+  onPageChange?: (pageNumber: number) => void;
 };
 
 const getPageOptions = (
@@ -53,7 +53,7 @@ export const Paginator: FC<PaginatorProps> = (props) => {
             key={page}
             text={page}
             className={`join-item btn btn-md w-12 ${selectedClass}`}
-            onClick={() => !isSelected && onPageChange(page)}
+            onClick={() => !isSelected && onPageChange && onPageChange(page)}
           />
         );
       })}
