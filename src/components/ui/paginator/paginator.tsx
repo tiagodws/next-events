@@ -1,10 +1,11 @@
 import type { Pagination } from '@/types';
 import { type FC } from 'react';
 import { Button } from '..';
+import { Link } from '../link';
 
 type PaginatorProps = {
   pagination: Pagination;
-  onPageChange?: (pageNumber: number) => void;
+  buildPageUrl?: (pageNumber: number) => string;
 };
 
 const getPageOptions = (
@@ -35,7 +36,7 @@ const getPageOptions = (
 };
 
 export const Paginator: FC<PaginatorProps> = (props) => {
-  const { pagination, onPageChange } = props;
+  const { pagination, buildPageUrl } = props;
   const pageOptions = getPageOptions(
     pagination.pageNumber,
     pagination.pageCount,
@@ -47,14 +48,15 @@ export const Paginator: FC<PaginatorProps> = (props) => {
       {pageOptions.map((page) => {
         const isSelected = page === pagination.pageNumber;
         const selectedClass = isSelected ? 'btn-neutral' : '';
+        const url = buildPageUrl?.(page);
 
         return (
-          <Button
-            key={page}
-            text={page}
-            className={`join-item btn btn-md w-12 ${selectedClass}`}
-            onClick={() => !isSelected && onPageChange && onPageChange(page)}
-          />
+          <Link key={page} href={url} isDisabled={isSelected} passHref>
+            <Button
+              text={page}
+              className={`join-item btn btn-md w-12 ${selectedClass}`}
+            />
+          </Link>
         );
       })}
     </div>

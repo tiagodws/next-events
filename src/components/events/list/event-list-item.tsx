@@ -1,8 +1,8 @@
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import type { Event } from '@prisma/client';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { FC } from 'react';
+import { Link } from '../../ui/link';
 import { EventLogistics } from '../event-logistics';
 
 type EventListItemProps = {

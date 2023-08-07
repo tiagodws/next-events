@@ -7,11 +7,11 @@ import { EventListItem } from './event-list-item';
 type EventListProps = {
   items: Event[];
   pagination?: Pagination;
-  onPageChange?: (pageNumber: number) => void;
+  buildPageUrl?: (pageNumber: number) => string;
 };
 
 export const EventList: FC<EventListProps> = (props) => {
-  const { items, pagination, onPageChange } = props;
+  const { items, pagination, buildPageUrl } = props;
 
   return (
     <div>
@@ -25,7 +25,7 @@ export const EventList: FC<EventListProps> = (props) => {
 
       {pagination && pagination.pageCount > 1 && (
         <div className="max-w-xs mx-auto mt-8">
-          <Paginator pagination={pagination} onPageChange={onPageChange} />
+          <Paginator pagination={pagination} buildPageUrl={buildPageUrl} />
         </div>
       )}
     </div>

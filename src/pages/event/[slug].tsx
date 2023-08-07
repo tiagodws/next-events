@@ -67,6 +67,7 @@ export const getStaticProps: GetStaticProps<EventPageProps> = async (
         metadata: { pagination: commentsPagination },
       },
     },
+    revalidate: 600,
   };
 };
 

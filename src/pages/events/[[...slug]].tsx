@@ -23,9 +23,8 @@ const EventsPage: FC<EventsPageProps> = (props) => {
     router.push(fullPath);
   };
 
-  const onPageChangeHandler = (pageNumber: number) => {
-    const fullPath = `/events/${pageNumber}`;
-    router.push(fullPath);
+  const buildPageUrl = (pageNumber: number) => {
+    return `/events/${pageNumber}`;
   };
 
   return (
@@ -53,7 +52,7 @@ const EventsPage: FC<EventsPageProps> = (props) => {
           <EventList
             items={events}
             pagination={pagination}
-            onPageChange={onPageChangeHandler}
+            buildPageUrl={buildPageUrl}
           />
         )}
       </div>

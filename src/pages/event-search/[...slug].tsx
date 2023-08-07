@@ -32,9 +32,8 @@ const EventSearchPage: FC<EventSearchPageProps> = (props) => {
     router.push(fullPath);
   };
 
-  const onPageChangeHandler = (pageNumber: number) => {
-    const fullPath = `/event-search/${search?.year}/${search?.month}/${pageNumber}`;
-    router.push(fullPath);
+  const buildPageUrl = (pageNumber: number) => {
+    return `/event-search/${search?.year}/${search?.month}/${pageNumber}`;
   };
 
   return (
@@ -77,7 +76,7 @@ const EventSearchPage: FC<EventSearchPageProps> = (props) => {
           <EventList
             items={events}
             pagination={pagination}
-            onPageChange={onPageChangeHandler}
+            buildPageUrl={buildPageUrl}
           />
         )}
       </div>

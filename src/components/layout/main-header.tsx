@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FC } from 'react';
+import { Link } from '../ui/link';
 
 export const MainHeader: FC = (props) => {
   return (
