@@ -52,10 +52,9 @@ export const Paginator: FC<PaginatorProps> = (props) => {
 
         return (
           <Link key={page} href={url} isDisabled={isSelected} passHref>
-            <Button
-              text={page}
-              className={`join-item btn btn-md w-12 ${selectedClass}`}
-            />
+            <Button className={`join-item btn btn-md w-12 ${selectedClass}`}>
+              {page}
+            </Button>
           </Link>
         );
       })}

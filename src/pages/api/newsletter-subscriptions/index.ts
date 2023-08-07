@@ -30,7 +30,7 @@ const postHandler = async (
 
   if (!bodyResult.success) {
     res.status(400).json({
-      error: { message: 'Invalid request', errors: bodyResult.error.errors },
+      error: { message: 'Invalid data', errors: bodyResult.error.errors },
     });
     return;
   }

@@ -12,7 +12,7 @@ import type { FC } from 'react';
 import { z } from 'zod';
 
 type EventPageProps = {
-  event: Event;
+  event?: Event;
   initialCommentData: PaginatedApiResponse<Comment[]>;
 };
 

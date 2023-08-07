@@ -1,8 +1,8 @@
 import type { StatusType } from '@/types';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 type ButtonProps = {
-  text?: string | number;
+  children?: ReactNode;
   type?: 'button' | 'submit' | 'reset';
   isLoading?: boolean;
   isDisabled?: boolean;
@@ -21,7 +21,7 @@ const statusTypeClasses = {
 
 export const Button: FC<ButtonProps> = (props) => {
   const {
-    text,
+    children,
     type = 'button',
     isLoading,
     isDisabled,
@@ -38,7 +38,7 @@ export const Button: FC<ButtonProps> = (props) => {
       onClick={onClick}
     >
       {isLoading && <span className="loading loading-spinner" />}
-      {text}
+      {children}
     </button>
   );
 };

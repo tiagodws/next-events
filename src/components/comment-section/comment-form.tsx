@@ -113,12 +113,9 @@ export const CommentForm: FC<CommentFormProps> = (props) => {
         />
       </div>
 
-      <Button
-        text="Comment"
-        type="submit"
-        isLoading={isMutating}
-        className="mt-4"
-      />
+      <Button type="submit" isLoading={isMutating} className="mt-4">
+        Comment
+      </Button>
     </form>
   );
 };

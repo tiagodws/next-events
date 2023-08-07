@@ -13,5 +13,5 @@ type PaginatedMetadata = Metadata & {
 };
 
 export type PaginatedApiResponse<T> = ApiResponse<T> & {
-  metadata: PaginatedMetadata;
+  metadata?: PaginatedMetadata;
 };

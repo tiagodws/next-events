@@ -12,6 +12,12 @@ import { z } from 'zod';
 type GetResponseData = PaginatedApiResponse<Comment[]>;
 type PostResponseData = ApiResponse<Comment>;
 
+const querySchema = z.object({
+  eventId: z.string().uuid(),
+  pageNumber: z.coerce.number().optional(),
+  pageSize: z.coerce.number().optional(),
+});
+
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<GetResponseData | PostResponseData>
@@ -30,16 +36,24 @@ const getHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<GetResponseData>
 ) => {
-  const query = req.query;
-  const { eventId, pageNumber, pageSize } = query;
+  const queryResult = querySchema.safeParse(req.query);
+
+  if (!queryResult.success) {
+    res.status(400).json({
+      error: {
+        message: 'Invalid parameters',
+        errors: queryResult.error.errors,
+      },
+    });
+    return;
+  }
+
+  const { eventId, pageNumber, pageSize } = queryResult.data;
   const paginationRequest: PaginationRequest = {
     pageNumber: Number(pageNumber),
     pageSize: Number(pageSize),
   };
-  const [comments, pagination] = await getComments(
-    eventId as string,
-    paginationRequest
-  );
+  const [comments, pagination] = await getComments(eventId, paginationRequest);
 
   res.status(200).json({ data: comments, metadata: { pagination } });
 };
@@ -50,8 +64,6 @@ const bodySchema = z.object({
   content: z.string(),
 });
 
-const querySchema = z.object({ eventId: z.string().uuid() });
-
 const postHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<PostResponseData>
@@ -61,14 +73,17 @@ const postHandler = async (
 
   if (!queryResult.success) {
     res.status(400).json({
-      error: { message: 'Invalid event ID', errors: queryResult.error.errors },
+      error: {
+        message: 'Invalid parameters',
+        errors: queryResult.error.errors,
+      },
     });
     return;
   }
 
   if (!bodyResult.success) {
     res.status(400).json({
-      error: { message: 'Invalid request', errors: bodyResult.error.errors },
+      error: { message: 'Invalid data', errors: bodyResult.error.errors },
     });
     return;
   }

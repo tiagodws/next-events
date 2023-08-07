@@ -85,7 +85,9 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
         ))}
       </select>
 
-      <Button text="Search" className="join-item flex-0" type="submit" />
+      <Button className="join-item flex-0" type="submit">
+        Search
+      </Button>
     </form>
   );
 };

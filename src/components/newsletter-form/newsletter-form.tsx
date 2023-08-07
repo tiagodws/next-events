@@ -27,7 +27,7 @@ export const NewsletterForm: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const email = emailRef.current?.value;
@@ -71,7 +71,7 @@ export const NewsletterForm: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmitHandler}>
       <h4 className="prose mb-2 text-center">Subscribe to stay up-to-date!</h4>
 
       <div className="join w-full flex">
@@ -84,11 +84,12 @@ export const NewsletterForm: FC = () => {
         />
 
         <Button
-          text="Subscribe"
           className="join-item flex-0"
           type="submit"
           isLoading={isLoading}
-        />
+        >
+          Subscribe
+        </Button>
       </div>
     </form>
   );
