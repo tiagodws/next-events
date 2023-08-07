@@ -11,12 +11,12 @@ import type { ParsedUrlQuery } from 'querystring';
 import type { FC } from 'react';
 import { z } from 'zod';
 
-type EventDetailPageProps = {
+type EventPageProps = {
   event: Event;
   initialCommentData: PaginatedApiResponse<Comment[]>;
 };
 
-const EventDetailPage: FC<EventDetailPageProps> = (props) => {
+const EventPage: FC<EventPageProps> = (props) => {
   const { event, initialCommentData } = props;
 
   return (
@@ -41,7 +41,7 @@ interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
-export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (
+export const getStaticProps: GetStaticProps<EventPageProps> = async (
   context
 ) => {
   const { slug } = context.params as Params;
@@ -80,4 +80,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default EventDetailPage;
+export default EventPage;

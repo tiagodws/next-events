@@ -1,6 +1,6 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Comment } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './prisma';
 
 type GetComments = [data: Comment[], pagination: Pagination];
 
@@ -12,8 +12,6 @@ export const getComments = async (
     pageNumber: Math.max(paginationRequest.pageNumber || 1, 1),
     pageSize: Math.max(Math.min(paginationRequest.pageSize || 10, 10), 1),
   };
-
-  const prisma = new PrismaClient();
   const where = { eventId };
   const take = sanitizedPaginationRequest.pageSize;
   const skip =

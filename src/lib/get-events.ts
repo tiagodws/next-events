@@ -1,6 +1,6 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Event } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './prisma';
 
 type GetEvents = [data: Event[], pagination: Pagination];
 
@@ -11,8 +11,6 @@ export const getEvents = async (
     pageNumber: Math.max(paginationRequest.pageNumber || 1, 1),
     pageSize: Math.max(Math.min(paginationRequest.pageSize || 10, 10), 1),
   };
-
-  const prisma = new PrismaClient();
   const take = sanitizedPaginationRequest.pageSize;
   const skip =
     (sanitizedPaginationRequest.pageNumber - 1) *

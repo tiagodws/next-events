@@ -1,5 +1,5 @@
 import type { NewsletterSubscription } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './prisma';
 
 type CreateSubscription = {
   email: string;
@@ -8,7 +8,6 @@ type CreateSubscription = {
 export const createSubscription = async (
   data: CreateSubscription
 ): Promise<NewsletterSubscription> => {
-  const prisma = new PrismaClient();
   const insert = { email: data.email };
 
   const newsletterSubscription = await prisma.newsletterSubscription.upsert({

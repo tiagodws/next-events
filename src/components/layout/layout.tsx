@@ -17,7 +17,7 @@ export const Layout: FC<LayoutProps> = (props) => {
     <Fragment>
       <MainHeader />
       <Toaster />
-      <main className={`mt-8 ${inter.className}`}>{children}</main>
+      <main className={`my-8 ${inter.className}`}>{children}</main>
     </Fragment>
   );
 };

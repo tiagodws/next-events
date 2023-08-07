@@ -1,7 +1,7 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Event } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
 import { lastDayOfMonth, set } from 'date-fns';
+import { prisma } from './prisma';
 
 type GetMonthEvents = [data: Event[], pagination: Pagination];
 
@@ -15,7 +15,6 @@ export const getMonthEvents = async (
     pageSize: Math.max(Math.min(paginationRequest.pageSize || 10, 10), 1),
   };
 
-  const prisma = new PrismaClient();
   const take = sanitizedPaginationRequest.pageSize;
   const skip =
     (sanitizedPaginationRequest.pageNumber - 1) *

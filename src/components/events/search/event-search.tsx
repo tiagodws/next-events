@@ -1,5 +1,5 @@
 import type { FC, FormEvent } from 'react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Button } from '../../ui';
 
 const years = ['2023', '2022', '2021'];
@@ -39,6 +39,15 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
 
     onSearch(selectedYear, selectedMonth);
   };
+
+  useEffect(() => {
+    if (!yearInputRef.current || !monthInputRef.current) {
+      return;
+    }
+
+    yearInputRef.current.value = defaultYear;
+    monthInputRef.current.value = defaultMonth;
+  }, [defaultYear, defaultMonth]);
 
   return (
     <form className="join flex" onSubmit={submitHandler}>

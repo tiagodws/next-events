@@ -1,8 +1,7 @@
 import type { Event } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './prisma';
 
 export const getEventById = async (id: string): Promise<Event | null> => {
-  const prisma = new PrismaClient();
   const data = await prisma.event.findUnique({
     where: { id },
   });
@@ -11,7 +10,6 @@ export const getEventById = async (id: string): Promise<Event | null> => {
 };
 
 export const getEventBySlug = async (slug: string): Promise<Event | null> => {
-  const prisma = new PrismaClient();
   const data = await prisma.event.findUnique({
     where: { slug },
   });

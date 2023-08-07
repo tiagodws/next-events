@@ -11,7 +11,7 @@ type EventListItemProps = {
 
 export const EventListItem: FC<EventListItemProps> = (props) => {
   const { slug, title, imageUrl, date, location, isFeatured } = props.event;
-  const detailLink = `/events/${slug}`;
+  const detailLink = `/event/${slug}`;
 
   return (
     <Link

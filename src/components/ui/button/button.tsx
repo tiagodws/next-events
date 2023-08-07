@@ -2,8 +2,8 @@ import type { StatusType } from '@/types';
 import type { FC } from 'react';
 
 type ButtonProps = {
-  text?: string;
-  type: 'button' | 'submit' | 'reset';
+  text?: string | number;
+  type?: 'button' | 'submit' | 'reset';
   isLoading?: boolean;
   isDisabled?: boolean;
   statusType?: StatusType;
@@ -22,7 +22,7 @@ const statusTypeClasses = {
 export const Button: FC<ButtonProps> = (props) => {
   const {
     text,
-    type,
+    type = 'button',
     isLoading,
     isDisabled,
     statusType = 'default',
