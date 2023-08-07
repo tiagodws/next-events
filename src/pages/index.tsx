@@ -1,14 +1,14 @@
-import { getFeaturedEvents } from '@/lib/get-featured-events';
-import type { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-const HomePage = () => {};
+const HomePage = () => {
+  const router = useRouter();
 
-export const getStaticProps: GetStaticProps = async () => {
-  const [events, pagination] = await getFeaturedEvents();
+  useEffect(() => {
+    router.push('/featured');
+  }, [router]);
 
-  return {
-    redirect: { destination: '/featured', permanent: false },
-  };
+  return null;
 };
 
 export default HomePage;
