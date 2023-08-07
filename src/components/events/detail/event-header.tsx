@@ -1,4 +1,5 @@
 import type { ApiResponse } from '@/types';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import type { Event } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -67,21 +68,19 @@ export const EventHeader: FC<EventHeaderProps> = (props) => {
       </div>
 
       {status === 'authenticated' && (
-        <div className="absolute left-0 top-0 p-4">
+        <div className="absolute right-0 top-0 p-4 flex w-80 min-w-0 max-w-full overflow-hidden">
           <Button
-            className="btn-error"
+            className="btn-error flex-1"
             onClick={onDeleteHandler}
             isLoading={isMutating}
           >
-            Delete
+            <TrashIcon className="w-5 h-5" />
+            <span className="hidden sm:block">Delete</span>
           </Button>
-        </div>
-      )}
 
-      {status === 'authenticated' && (
-        <div className="absolute right-0 top-0 p-4">
-          <Button className="btn-accent" onClick={onEditHandler}>
-            Edit
+          <Button className="btn-accent flex-1 ml-2" onClick={onEditHandler}>
+            <PencilIcon className="w-5 h-5" />
+            <span className="hidden sm:block">Edit</span>
           </Button>
         </div>
       )}

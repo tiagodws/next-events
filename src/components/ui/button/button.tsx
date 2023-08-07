@@ -32,7 +32,7 @@ export const Button: FC<ButtonProps> = (props) => {
 
   return (
     <button
-      className={`btn ${statusTypeClasses[statusType]} ${className}`}
+      className={`btn normal-case ${statusTypeClasses[statusType]} ${className}`}
       type={type}
       disabled={isDisabled || isLoading}
       onClick={onClick}

@@ -3,15 +3,15 @@ import { NewsletterForm } from '@/components/newsletter-form';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
 import { Pagination } from '@/types';
 import type { Event } from '@prisma/client';
-import type { GetStaticProps } from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import type { FC } from 'react';
 
-type HomePageProps = {
+type FeaturedPageProps = {
   events: Event[];
   pagination: Pagination;
 };
 
-const HomePage: FC<HomePageProps> = (props) => {
+const FeaturedPage: FC<FeaturedPageProps> = (props) => {
   const { events, pagination } = props;
 
   const buildPageUrl = (pageNumber: number) => {
@@ -33,8 +33,14 @@ const HomePage: FC<HomePageProps> = (props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  const [events, pagination] = await getFeaturedEvents();
+export const getStaticProps: GetStaticProps<FeaturedPageProps> = async (
+  context
+) => {
+  const slug = context.params?.slug;
+  const page = slug?.[0];
+  const pageNumber = Number(page) || 1;
+
+  const [events, pagination] = await getFeaturedEvents({ pageNumber });
 
   return {
     props: { events, pagination },
@@ -42,4 +48,19 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   };
 };
 
-export default HomePage;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const [_, pagination] = await getFeaturedEvents();
+  const { pageCount } = pagination;
+  const pagePaths = Array.from({ length: pageCount }, (_, i) => ({
+    params: { slug: [String(i + 1)] },
+  }));
+
+  const paths = [{ params: { slug: [''] } }, ...pagePaths];
+
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export default FeaturedPage;
