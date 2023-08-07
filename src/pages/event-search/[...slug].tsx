@@ -129,7 +129,7 @@ export const getStaticProps: GetStaticProps<EventSearchPageProps> = async (
 
   return {
     props: { events, pagination, search: { year, month } },
-    revalidate: 60,
+    revalidate: 600,
   };
 };
 
