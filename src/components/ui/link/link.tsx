@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 
 type LinkProps = {
@@ -20,7 +20,8 @@ export const Link: FC<LinkProps> = (props) => {
     activeClassName = 'text-primary',
     ...rest
   } = props;
-  const currentPath = usePathname();
+  const router = useRouter();
+  const currentPath = router.pathname;
   const isActive = href && currentPath.startsWith(href);
   const activeClass = isActive ? activeClassName : '';
 

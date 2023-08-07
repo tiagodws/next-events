@@ -4,15 +4,19 @@ import { getFeaturedEvents } from '@/lib/get-featured-events';
 import { Pagination } from '@/types';
 import type { Event } from '@prisma/client';
 import type { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import type { FC } from 'react';
+import { Alert, Loading } from '../../components/ui';
 
 type FeaturedPageProps = {
-  events: Event[];
-  pagination: Pagination;
+  events?: Event[];
+  pagination?: Pagination;
 };
 
 const FeaturedPage: FC<FeaturedPageProps> = (props) => {
   const { events, pagination } = props;
+  const router = useRouter();
+  const { isFallback } = router;
 
   const buildPageUrl = (pageNumber: number) => {
     return `/featured/${pageNumber}`;
@@ -24,11 +28,19 @@ const FeaturedPage: FC<FeaturedPageProps> = (props) => {
         <NewsletterForm />
       </div>
 
-      <EventList
-        items={events}
-        pagination={pagination}
-        buildPageUrl={buildPageUrl}
-      />
+      {isFallback && <Loading />}
+
+      {!isFallback && !events?.length && (
+        <Alert statusType="default" message="No events found." />
+      )}
+
+      {!isFallback && !!events?.length && !!pagination && (
+        <EventList
+          items={events}
+          pagination={pagination}
+          buildPageUrl={buildPageUrl}
+        />
+      )}
     </div>
   );
 };
