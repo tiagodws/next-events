@@ -110,7 +110,7 @@ const putHandler = async (
 
   const existingEvent = await getEventBySlug(bodyResult.data.slug);
 
-  if (existingEvent) {
+  if (existingEvent && existingEvent.id !== id) {
     res.status(409).json({
       error: { message: 'Slug already in use' },
     });
