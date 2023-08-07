@@ -25,7 +25,7 @@ type EventSearchProps = {
 };
 
 export const EventSearch: FC<EventSearchProps> = (props) => {
-  const { onSearch, defaultYear = '', defaultMonth = '' } = props;
+  const { defaultYear = '', defaultMonth = '', onSearch } = props;
   const yearInputRef = useRef<HTMLSelectElement>(null);
   const monthInputRef = useRef<HTMLSelectElement>(null);
 

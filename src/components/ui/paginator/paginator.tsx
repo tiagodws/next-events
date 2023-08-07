@@ -44,7 +44,7 @@ export const Paginator: FC<PaginatorProps> = (props) => {
   );
 
   return (
-    <div className="join justify-center w-full">
+    <nav className="join justify-center w-full">
       {pageOptions.map((page) => {
         const isSelected = page === pagination.pageNumber;
         const selectedClass = isSelected ? 'btn-neutral' : '';
@@ -59,6 +59,6 @@ export const Paginator: FC<PaginatorProps> = (props) => {
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 };
