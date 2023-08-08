@@ -1,6 +1,6 @@
 'use client';
 
-import { TopBar } from '@/components/top-bar';
+import { NavBar } from '@/components/nav-bar';
 import { Toaster } from '@/components/ui';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
@@ -19,9 +19,14 @@ const ClientRootLayout: FC<ClientRootLayoutProps> = (props) => {
 
   return (
     <SessionProvider>
-      <TopBar />
       <Toaster />
-      <main className={`my-8 ${inter.className}`}>{children}</main>
+      <main className={`h-full flex flex-col ${inter.className}`}>
+        <div className="flex-0">
+          <NavBar />
+        </div>
+
+        <div className="flex-1 py-8 overflow-auto">{children}</div>
+      </main>
       <Analytics />
     </SessionProvider>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { FC, ReactNode } from 'react';

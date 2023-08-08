@@ -1,3 +1,5 @@
+'use client';
+
 import { toast as rhtToast } from 'react-hot-toast';
 import type { AlertProps } from '../alert';
 import { Alert } from '../alert';
