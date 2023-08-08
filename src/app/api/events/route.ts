@@ -29,7 +29,8 @@ export const POST = async (
     );
   }
 
-  const bodyValidation = bodySchema.safeParse(req.body);
+  const body = await req.json();
+  const bodyValidation = bodySchema.safeParse(body);
 
   if (!bodyValidation.success) {
     return NextResponse.json(

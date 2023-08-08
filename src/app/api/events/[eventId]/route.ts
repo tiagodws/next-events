@@ -67,8 +67,9 @@ export const PUT = async (
     );
   }
 
+  const body = await req.json();
   const paramsValidation = paramsSchema.safeParse(params);
-  const bodyValidation = bodySchema.safeParse(req.body);
+  const bodyValidation = bodySchema.safeParse(body);
 
   if (!paramsValidation.success) {
     return NextResponse.json(

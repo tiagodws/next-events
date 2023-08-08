@@ -2,9 +2,8 @@ import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/prisma';
 import type { ApiResponse } from '@/types';
 import type { Comment } from '@prisma/client';
-import type { NextApiRequest } from 'next';
 import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const paramsSchema = z.object({
@@ -14,7 +13,7 @@ const paramsSchema = z.object({
 type Params = z.infer<typeof paramsSchema>;
 
 export const DELETE = async (
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: Params }
 ): Promise<NextResponse<ApiResponse<Comment>>> => {
   const session = getServerSession(authOptions);

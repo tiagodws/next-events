@@ -1,8 +1,7 @@
 import { createSubscription } from '@/lib/create-subscription';
 import type { ApiResponse } from '@/types';
 import type { NewsletterSubscription } from '@prisma/client';
-import type { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const bodySchema = z.object({
@@ -10,9 +9,10 @@ const bodySchema = z.object({
 });
 
 export const POST = async (
-  req: NextApiRequest
+  req: NextRequest
 ): Promise<NextResponse<ApiResponse<NewsletterSubscription>>> => {
-  const bodyValidation = bodySchema.safeParse(req.body);
+  const body = await req.json();
+  const bodyValidation = bodySchema.safeParse(body);
 
   if (!bodyValidation.success) {
     return NextResponse.json(
@@ -24,8 +24,7 @@ export const POST = async (
     );
   }
 
-  const body = bodyValidation.data;
-  const newsletterSubscription = await createSubscription(body);
+  const newsletterSubscription = await createSubscription(bodyValidation.data);
 
   return NextResponse.json({ data: newsletterSubscription }, { status: 201 });
 };

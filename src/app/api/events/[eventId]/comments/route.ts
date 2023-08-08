@@ -6,8 +6,7 @@ import type {
   PaginationRequest,
 } from '@/types';
 import type { Comment } from '@prisma/client';
-import type { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const paramsSchema = z.object({
@@ -19,7 +18,7 @@ const paramsSchema = z.object({
 type Params = z.infer<typeof paramsSchema>;
 
 export const GET = async (
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: Params }
 ): Promise<NextResponse<PaginatedApiResponse<Comment[]>>> => {
   const paramsValidation = paramsSchema.safeParse(params);
@@ -56,11 +55,12 @@ const bodySchema = z.object({
 });
 
 export const POST = async (
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: Params }
 ): Promise<NextResponse<ApiResponse<Comment>>> => {
+  const body = await req.json();
   const paramsValidation = paramsSchema.safeParse(params);
-  const bodyValidation = bodySchema.safeParse(req.body);
+  const bodyValidation = bodySchema.safeParse(body);
 
   if (!paramsValidation.success) {
     return NextResponse.json(
@@ -87,8 +87,8 @@ export const POST = async (
   }
 
   const { eventId } = paramsValidation.data;
-  const body = bodyValidation.data;
-  const comment = await createComment(eventId, body);
+  const data = bodyValidation.data;
+  const comment = await createComment(eventId, data);
 
   return NextResponse.json({ data: comment }, { status: 201 });
 };
