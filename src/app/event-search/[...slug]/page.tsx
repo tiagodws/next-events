@@ -1,4 +1,5 @@
 import { getMonthEvents } from '@/lib/get-month-events';
+import { add, sub } from 'date-fns';
 import type { Metadata } from 'next';
 import type { FC } from 'react';
 import ClientEventSearchPage, {
@@ -59,6 +60,20 @@ const getStaticProps = async (
   return { events, pagination, search: { year, month } };
 };
 
+export const generateStaticParams = async (): Promise<
+  EventSearchPageProps[]
+> => {
+  const startDate = sub(new Date(), { months: 1 });
+  return Array.from({ length: 6 }, (_, i) => {
+    const date = add(startDate, { months: i });
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    return { params: { slug: [year.toString(), month.toString()] } };
+  });
+};
+
+export const dynamicParams = true;
+export const revalidate = 10;
 export const metadata: Metadata = {
   title: 'Next Events - Search events',
 };

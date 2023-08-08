@@ -26,6 +26,16 @@ const getStaticProps = async (
   return { events, pagination };
 };
 
+export const generateStaticParams = async (): Promise<EventsPageProps[]> => {
+  return [
+    { params: { slug: [''] } },
+    { params: { slug: ['1'] } },
+    { params: { slug: ['2'] } },
+  ];
+};
+
+export const dynamicParams = true;
+export const revalidate = 10;
 export const metadata: Metadata = {
   title: 'Next Events - All events',
 };

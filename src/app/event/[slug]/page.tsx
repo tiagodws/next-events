@@ -1,5 +1,6 @@
 import { getComments } from '@/lib/get-comments';
 import { getEventBySlug } from '@/lib/get-event';
+import { getFeaturedEvents } from '@/lib/get-featured-events';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
@@ -8,7 +9,7 @@ import ClientEventPage, { type ClientEventPageProps } from './client-page';
 
 type EventPageProps = {
   params: {
-    slug?: string[];
+    slug?: string;
   };
 };
 
@@ -44,6 +45,13 @@ const getStaticProps = async (
   };
 };
 
+export const generateStaticParams = async (): Promise<EventPageProps[]> => {
+  const [events] = await getFeaturedEvents();
+  return events.map((event) => ({ params: { slug: event.slug } }));
+};
+
+export const dynamicParams = true;
+export const revalidate = 10;
 export const metadata: Metadata = {
   title: 'Next Events - Event',
 };
