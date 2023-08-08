@@ -6,11 +6,11 @@ import {
   FaceFrownIcon,
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export type AlertProps = {
   id?: string;
-  message: string | JSX.Element | null;
+  message?: string | ReactNode | null;
   statusType?: StatusType;
 };
 

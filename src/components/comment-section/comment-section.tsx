@@ -3,6 +3,7 @@ import type {
   PaginatedApiResponse,
   PaginationRequest,
 } from '@/types';
+import type { Error } from '@/types/error';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import type { Comment } from '@prisma/client';
 import { format } from 'date-fns';
@@ -20,7 +21,10 @@ type CommentSectionProps = {
   initialCommentData: PaginatedApiResponse<Comment[]>;
 };
 
-const deleteComment = async (url: string, { arg }: { arg: string }) => {
+const deleteComment = async (
+  url: string,
+  { arg }: { arg: string }
+): Promise<ApiResponse<Comment>> => {
   const res = await fetch(`${url}/${arg}`, {
     method: 'DELETE',
     headers: {
@@ -40,7 +44,7 @@ const deleteComment = async (url: string, { arg }: { arg: string }) => {
 export const CommentSection: FC<CommentSectionProps> = (props) => {
   const { eventId, initialCommentData } = props;
   const { status } = useSession();
-  const [pagination, setPagination] = useState<PaginationRequest>(
+  const [pagination] = useState<PaginationRequest>(
     initialCommentData.metadata?.pagination ?? { pageNumber: 1, pageSize: 10 }
   );
   const [commentData, setCommentData] =
@@ -57,11 +61,11 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
     (url) => fetch(`${url}?${queryParams}`).then((res) => res.json())
   );
 
-  const onDeleteHandler = async (id: string) => {
+  const onDeleteHandler = async (id: string): Promise<void> => {
     try {
       await trigger(id);
-    } catch (err: any) {
-      toast({ message: err.message, statusType: 'error' });
+    } catch (err) {
+      toast({ message: (err as Error).message, statusType: 'error' });
     }
   };
 

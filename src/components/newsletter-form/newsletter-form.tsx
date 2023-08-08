@@ -1,11 +1,14 @@
 import type { ApiResponse } from '@/types';
+import type { Error } from '@/types/error';
 import type { NewsletterSubscription } from '@prisma/client';
 import type { FC, FormEvent } from 'react';
 import { useRef, useState } from 'react';
 import { z } from 'zod';
 import { Button, toast } from '../ui';
 
-const subscribe = async (email: string) => {
+const subscribe = async (
+  email: string
+): Promise<ApiResponse<NewsletterSubscription>> => {
   const res = await fetch('/api/newsletter-subscriptions', {
     method: 'POST',
     body: JSON.stringify({ email }),
@@ -27,7 +30,9 @@ export const NewsletterForm: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     const email = emailRef.current?.value;
@@ -59,10 +64,10 @@ export const NewsletterForm: FC = () => {
         message: 'You have subscribed!',
         statusType: 'success',
       });
-    } catch (err: any) {
+    } catch (err) {
       toast({
         id: 'subscribe-error',
-        message: err.message,
+        message: (err as Error).message,
         statusType: 'error',
       });
     }

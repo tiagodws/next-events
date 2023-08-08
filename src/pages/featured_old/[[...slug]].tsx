@@ -1,7 +1,7 @@
 import { EventList } from '@/components/events';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
-import { Pagination } from '@/types';
+import type { Pagination } from '@/types';
 import type { Event } from '@prisma/client';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';

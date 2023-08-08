@@ -1,6 +1,7 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Event } from '@prisma/client';
 import { lastDayOfMonth, set } from 'date-fns';
+import 'server-only';
 import { prisma } from './prisma';
 
 type GetMonthEvents = [data: Event[], pagination: Pagination];

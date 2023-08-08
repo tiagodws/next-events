@@ -1,4 +1,5 @@
 import type { NewsletterSubscription } from '@prisma/client';
+import 'server-only';
 import { prisma } from './prisma';
 
 type CreateSubscription = {

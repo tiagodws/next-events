@@ -1,7 +1,7 @@
 import type { AuthOptions } from 'next-auth';
-import NextAuth from 'next-auth';
 import type { GoogleProfile } from 'next-auth/providers/google';
 import GoogleProvider from 'next-auth/providers/google';
+import 'server-only';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -24,5 +24,3 @@ export const authOptions: AuthOptions = {
     },
   },
 };
-
-export default NextAuth(authOptions);

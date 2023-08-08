@@ -2,8 +2,8 @@ import { toast as rhtToast } from 'react-hot-toast';
 import type { AlertProps } from '../alert';
 import { Alert } from '../alert';
 
-export const toast = (props: AlertProps) => {
-  return rhtToast.custom(
+export const toast = (props: AlertProps): void => {
+  rhtToast.custom(
     (toast) => {
       const animationClass = toast.visible ? 'animate-enter' : 'animate-leave';
 

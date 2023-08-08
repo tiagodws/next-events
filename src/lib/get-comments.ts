@@ -1,5 +1,6 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Comment } from '@prisma/client';
+import 'server-only';
 import { prisma } from './prisma';
 
 type GetComments = [data: Comment[], pagination: Pagination];

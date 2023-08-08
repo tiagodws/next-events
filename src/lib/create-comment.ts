@@ -1,4 +1,5 @@
 import type { Comment } from '@prisma/client';
+import 'server-only';
 import { prisma } from './prisma';
 
 type CreateComment = {

@@ -29,7 +29,7 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
   const yearInputRef = useRef<HTMLSelectElement>(null);
   const monthInputRef = useRef<HTMLSelectElement>(null);
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = (e: FormEvent): void => {
     e.preventDefault();
 
     const selectedYear = yearInputRef.current?.value;

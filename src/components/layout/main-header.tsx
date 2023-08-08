@@ -1,7 +1,7 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Button } from '../ui';
 import { Link } from '../ui/link';
 

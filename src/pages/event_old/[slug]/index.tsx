@@ -5,7 +5,7 @@ import { getEventBySlug } from '@/lib/get-event';
 import { getFeaturedEvents } from '@/lib/get-featured-events';
 import type { PaginatedApiResponse } from '@/types';
 import type { Comment, Event } from '@prisma/client';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { type GetStaticPaths, type GetStaticProps } from 'next';
 import Head from 'next/head';
 import type { ParsedUrlQuery } from 'querystring';
 import type { FC } from 'react';

@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import type { FC, ReactNode } from 'react';
 
 type LinkProps = {
@@ -20,9 +20,8 @@ export const Link: FC<LinkProps> = (props) => {
     activeClassName = 'text-primary',
     ...rest
   } = props;
-  const router = useRouter();
-  const currentPath = router.pathname;
-  const isActive = href && currentPath.startsWith(href);
+  const pathname = usePathname();
+  const isActive = href && pathname?.startsWith(href);
   const activeClass = isActive ? activeClassName : '';
 
   if (!href || isDisabled) {

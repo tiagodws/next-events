@@ -1,6 +1,4 @@
-import { ZodIssue } from 'zod';
-
-export type Metadata = {};
+import type { ZodIssue } from 'zod';
 
 type ApiError = {
   message: string;
@@ -9,6 +7,5 @@ type ApiError = {
 
 export type ApiResponse<T> = {
   data?: T;
-  metadata?: Metadata;
   error?: ApiError;
 };

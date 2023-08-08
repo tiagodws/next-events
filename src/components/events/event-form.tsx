@@ -5,11 +5,11 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
 type EventFormProps = {
-  defaultValues?: SchemaType;
-  onSubmit: SubmitHandler<SchemaType>;
+  defaultValues?: EventFormData;
+  onSubmit: SubmitHandler<EventFormData>;
 };
 
-const schema = z.object({
+const formSchema = z.object({
   title: z.string().min(1),
   slug: z.string().min(1),
   description: z.string().min(1),
@@ -25,7 +25,7 @@ const schema = z.object({
   isFeatured: z.boolean(),
 });
 
-type SchemaType = z.infer<typeof schema>;
+export type EventFormData = z.infer<typeof formSchema>;
 
 export const EventForm: FC<EventFormProps> = (props) => {
   const { defaultValues, onSubmit } = props;
@@ -33,8 +33,8 @@ export const EventForm: FC<EventFormProps> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SchemaType>({
-    resolver: zodResolver(schema),
+  } = useForm<EventFormData>({
+    resolver: zodResolver(formSchema),
     defaultValues: defaultValues && {
       ...defaultValues,
       date: defaultValues.date
@@ -44,7 +44,7 @@ export const EventForm: FC<EventFormProps> = (props) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmitHandler: SubmitHandler<SchemaType> = async (data) => {
+  const onSubmitHandler: SubmitHandler<EventFormData> = async (data) => {
     setIsSubmitting(true);
 
     try {

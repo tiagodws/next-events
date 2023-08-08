@@ -1,5 +1,4 @@
-import { Metadata } from 'next';
-import { ApiResponse } from './api-response';
+import type { ApiResponse } from './api-response';
 
 export type Pagination = {
   pageNumber: number;
@@ -8,7 +7,7 @@ export type Pagination = {
   totalCount: number;
 };
 
-type PaginatedMetadata = Metadata & {
+type PaginatedMetadata = {
   pagination: Pagination;
 };
 

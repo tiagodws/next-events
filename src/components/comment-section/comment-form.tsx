@@ -1,7 +1,8 @@
 import type { ApiResponse } from '@/types';
+import type { Error } from '@/types/error';
 import type { Comment } from '@prisma/client';
 import type { FC } from 'react';
-import { FormEvent, useRef } from 'react';
+import { useRef, type FormEvent } from 'react';
 import useSWRMutation from 'swr/mutation';
 import { z } from 'zod';
 import { Button, toast } from '../ui';
@@ -17,7 +18,7 @@ type CommentFormSchema = z.infer<typeof commentFormSchema>;
 const postComment = async (
   url: string,
   { arg }: { arg: CommentFormSchema }
-) => {
+): Promise<ApiResponse<Comment>> => {
   const res = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(arg),
@@ -49,7 +50,7 @@ export const CommentForm: FC<CommentFormProps> = (props) => {
     postComment
   );
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     const email = emailRef.current?.value;
@@ -76,10 +77,10 @@ export const CommentForm: FC<CommentFormProps> = (props) => {
         message: 'Comment added!',
         statusType: 'success',
       });
-    } catch (err: any) {
+    } catch (err) {
       toast({
         id: 'comment-error',
-        message: err.message,
+        message: (err as Error).message,
         statusType: 'error',
       });
     }

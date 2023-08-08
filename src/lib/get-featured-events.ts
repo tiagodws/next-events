@@ -1,5 +1,6 @@
 import type { Pagination, PaginationRequest } from '@/types';
 import type { Event } from '@prisma/client';
+import 'server-only';
 import { prisma } from './prisma';
 
 type GetFeaturedEvents = [data: Event[], pagination: Pagination];

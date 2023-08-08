@@ -1,9 +1,10 @@
 import type { ApiResponse } from '@/types';
+import type { Error } from '@/types/error';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import type { Event } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import useSWRMutation from 'swr/mutation';
 import { Button, toast } from '../../ui';
@@ -13,7 +14,10 @@ type EventHeaderProps = {
   event: Event;
 };
 
-const deleteEvent = async (url: string, { arg }: { arg: string }) => {
+const deleteEvent = async (
+  url: string,
+  { arg }: { arg: string }
+): Promise<ApiResponse<Event>> => {
   const res = await fetch(`${url}/${arg}`, {
     method: 'DELETE',
     headers: {
@@ -36,16 +40,16 @@ export const EventHeader: FC<EventHeaderProps> = (props) => {
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(`/api/events`, deleteEvent);
 
-  const onDeleteHandler = async () => {
+  const onDeleteHandler = async (): Promise<void> => {
     try {
       await trigger(id);
       router.push(`/`);
-    } catch (err: any) {
-      toast({ message: err.message, statusType: 'error' });
+    } catch (err) {
+      toast({ message: (err as Error).message, statusType: 'error' });
     }
   };
 
-  const onEditHandler = () => {
+  const onEditHandler = (): void => {
     router.push(`/event/${props.event.slug}/edit`);
   };
 

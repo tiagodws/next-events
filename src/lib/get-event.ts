@@ -1,4 +1,5 @@
 import type { Event } from '@prisma/client';
+import 'server-only';
 import { prisma } from './prisma';
 
 export const getEventById = async (id: string): Promise<Event | null> => {
