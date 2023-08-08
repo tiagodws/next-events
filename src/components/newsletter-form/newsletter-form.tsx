@@ -1,17 +1,26 @@
 import type { ApiResponse } from '@/types';
-import type { Error } from '@/types/error';
+import { zodResolver } from '@hookform/resolvers/zod';
 import type { NewsletterSubscription } from '@prisma/client';
-import type { FC, FormEvent } from 'react';
-import { useRef, useState } from 'react';
+import type { FC } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import useSWRMutation from 'swr/mutation';
 import { z } from 'zod';
-import { Button, toast } from '../ui';
+import { Input } from '../inputs';
+import { Button } from '../ui';
+
+const formSchema = z.object({
+  email: z.string().email(),
+});
+
+type NewsletterFormData = z.infer<typeof formSchema>;
 
 const subscribe = async (
-  email: string
+  url: string,
+  { arg }: { arg: NewsletterFormData }
 ): Promise<ApiResponse<NewsletterSubscription>> => {
-  const res = await fetch('/api/newsletter-subscriptions', {
+  const res = await fetch(url, {
     method: 'POST',
-    body: JSON.stringify({ email }),
+    body: JSON.stringify(arg),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -27,72 +36,44 @@ const subscribe = async (
 };
 
 export const NewsletterForm: FC = () => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<NewsletterFormData>({
+    resolver: zodResolver(formSchema),
+  });
+  const { trigger, isMutating } = useSWRMutation(
+    `/api/newsletter-subscriptions`,
+    subscribe
+  );
 
-  const onSubmitHandler = async (
-    e: FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault();
-
-    const email = emailRef.current?.value;
-
-    if (!email) {
-      return;
-    }
-
-    const result = z.string().email().safeParse(email);
-
-    if (!result.success) {
-      toast({
-        id: 'invalid-email',
-        message: 'Please enter a valid e-mail address.',
-        statusType: 'warning',
-      });
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      await subscribe(email);
-
-      emailRef.current.value = '';
-
-      toast({
-        id: 'subscribe-success',
-        message: 'You have subscribed!',
-        statusType: 'success',
-      });
-    } catch (err) {
-      toast({
-        id: 'subscribe-error',
-        message: (err as Error).message,
-        statusType: 'error',
-      });
-    }
-
-    setIsLoading(false);
+  const onSubmitHandler: SubmitHandler<NewsletterFormData> = async (data) => {
+    await trigger(data);
+    setValue('email', '');
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <h4 className="prose mb-2 text-center">Subscribe to stay up-to-date!</h4>
 
-      <div className="join w-full flex">
-        <input
-          id="email"
-          className="input input-bordered join-item min-w-0 flex-[4]"
-          placeholder="Email"
-          type="email"
-          ref={emailRef}
-          disabled={isLoading}
-        />
+      <div className="w-full flex">
+        <div className="min-w-0 flex-[4]">
+          <Input
+            id="email"
+            placeholder="E-mail"
+            type="email"
+            error={errors.email}
+            isDisabled={isMutating}
+            register={register('email')}
+          />
+        </div>
 
         <Button
-          className="join-item flex-1"
+          className="ml-2 flex-1 btn-secondary"
           type="submit"
-          isLoading={isLoading}
+          isLoading={isMutating}
         >
           Subscribe
         </Button>

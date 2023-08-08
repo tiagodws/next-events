@@ -55,7 +55,7 @@ export const EventHeader: FC<EventHeaderProps> = (props) => {
 
   return (
     <div className="w-full relative">
-      <div className="relative w-full rounded-lg shadow-xl h-40 overflow-hidden">
+      <div className="relative w-full rounded-box shadow-xl h-40 overflow-hidden">
         <Image
           src={imageUrl}
           alt={title}

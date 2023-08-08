@@ -90,7 +90,7 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
 
       {commentData.data?.map((comment) => {
         return (
-          <div key={comment.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+          <div key={comment.id} className="mt-4 bg-base-200 p-4 rounded-box">
             <div className="flex justify-center w-full">
               <div className="flex-1">
                 <span className="text-sm font-bold">{comment.name}</span>

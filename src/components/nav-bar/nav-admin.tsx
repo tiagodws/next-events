@@ -12,8 +12,8 @@ export const NavAdmin: FC = () => {
       {status === 'authenticated' && (
         <Link
           className="btn btn-primary mr-2 flex-0 flex-shrink"
-          activeClassName="text-white"
           href="/event/create"
+          shouldStyleActive={false}
         >
           <PlusIcon className="w-5 h-5 md:hidden" />
           <span className="hidden md:block">Create event</span>

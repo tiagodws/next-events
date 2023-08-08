@@ -21,7 +21,7 @@ const ClientFeaturedPage: FC<ClientFeaturedPageProps> = (props) => {
 
   return (
     <div className="container max-w-lg mx-auto px-4">
-      <div className="mb-8">
+      <div className="mb-2">
         <NewsletterForm />
       </div>
 

@@ -7,10 +7,10 @@ import type { FC, ReactNode } from 'react';
 type LinkProps = {
   href?: string;
   className?: string;
-  activeClassName?: string;
   replace?: boolean;
   passHref?: boolean;
   children?: ReactNode;
+  shouldStyleActive?: boolean;
   isDisabled?: boolean;
 };
 
@@ -19,12 +19,12 @@ export const Link: FC<LinkProps> = (props) => {
     href,
     isDisabled,
     className,
-    activeClassName = 'text-primary',
+    shouldStyleActive = true,
     ...rest
   } = props;
   const pathname = usePathname();
   const isActive = href && pathname?.startsWith(href);
-  const activeClass = isActive ? activeClassName : '';
+  const activeClass = isActive && shouldStyleActive ? 'text-primary' : '';
 
   if (!href || isDisabled) {
     return (

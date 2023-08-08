@@ -1,23 +1,24 @@
 import type { ApiResponse } from '@/types';
-import type { Error } from '@/types/error';
+import { zodResolver } from '@hookform/resolvers/zod';
 import type { Comment } from '@prisma/client';
 import type { FC } from 'react';
-import { useRef, type FormEvent } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import useSWRMutation from 'swr/mutation';
 import { z } from 'zod';
-import { Button, toast } from '../ui';
+import { Input, TextArea } from '../inputs';
+import { Button } from '../ui';
 
-const commentFormSchema = z.object({
+const formSchema = z.object({
   email: z.string().email(),
-  name: z.string(),
-  content: z.string(),
+  name: z.string().min(1),
+  content: z.string().min(1),
 });
 
-type CommentFormSchema = z.infer<typeof commentFormSchema>;
+type CommentFormData = z.infer<typeof formSchema>;
 
 const postComment = async (
   url: string,
-  { arg }: { arg: CommentFormSchema }
+  { arg }: { arg: CommentFormData }
 ): Promise<ApiResponse<Comment>> => {
   const res = await fetch(url, {
     method: 'POST',
@@ -42,84 +43,65 @@ type CommentFormProps = {
 
 export const CommentForm: FC<CommentFormProps> = (props) => {
   const { eventId } = props;
-  const emailRef = useRef<HTMLInputElement>(null);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<CommentFormData>({
+    resolver: zodResolver(formSchema),
+  });
   const { trigger, isMutating } = useSWRMutation(
     `/api/events/${eventId}/comments`,
     postComment
   );
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-
-    const email = emailRef.current?.value;
-    const name = nameRef.current?.value;
-    const content = contentRef.current?.value;
-    const formData = { email, name, content };
-    const result = commentFormSchema.safeParse(formData);
-
-    if (!result.success) {
-      toast({
-        id: 'invalid-comment',
-        message: 'Please fill in all the fields with valid information.',
-        statusType: 'warning',
-      });
-      return;
-    }
-
-    try {
-      await trigger(result.data);
-      contentRef.current!.value = '';
-
-      toast({
-        id: 'comment-success',
-        message: 'Comment added!',
-        statusType: 'success',
-      });
-    } catch (err) {
-      toast({
-        id: 'comment-error',
-        message: (err as Error).message,
-        statusType: 'error',
-      });
-    }
+  const onSubmitHandler: SubmitHandler<CommentFormData> = async (data) => {
+    await trigger(data);
+    setValue('content', '');
   };
 
   return (
-    <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-12 gap-4">
-        <input
-          id="email"
-          className="input input-bordered col-span-6"
-          placeholder="Email"
-          type="email"
-          ref={emailRef}
-          disabled={isMutating}
-        />
+    <form className="flex flex-col" onSubmit={handleSubmit(onSubmitHandler)}>
+      <div className="grid grid-cols-12 gap-x-4">
+        <div className="col-span-6">
+          <Input
+            id="email"
+            label="E-mail"
+            type="email"
+            error={errors.email}
+            isDisabled={isMutating}
+            register={register('email')}
+          />
+        </div>
 
-        <input
-          id="name"
-          className="input input-bordered col-span-6"
-          placeholder="Name"
-          ref={nameRef}
-          disabled={isMutating}
-        />
+        <div className="col-span-6">
+          <Input
+            id="name"
+            label="Name"
+            error={errors.name}
+            isDisabled={isMutating}
+            register={register('name')}
+          />
+        </div>
 
-        <textarea
-          id="content"
-          className="textarea textarea-bordered col-span-12"
-          placeholder="Write your comment..."
-          ref={contentRef}
-          disabled={isMutating}
-        />
+        <div className="col-span-12">
+          <TextArea
+            id="content"
+            label="Comment"
+            placeholder="Write your comment..."
+            error={errors.content}
+            isDisabled={isMutating}
+            register={register('content')}
+          />
+        </div>
 
         <div className="hidden sm:block col-span-6" />
 
         <Button
           type="submit"
           isLoading={isMutating}
-          className="btn-secondary col-span-12 sm:col-span-6"
+          className="btn-secondary col-span-12 sm:col-span-6 mt-2"
         >
           Comment
         </Button>

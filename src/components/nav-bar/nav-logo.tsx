@@ -6,6 +6,7 @@ export const NavLogo: FC = () => {
     <div className="flex">
       <Link
         href="/"
+        shouldStyleActive={false}
         className="btn btn-ghost text-primary normal-case text-xl flex-0 flex-shrink hidden md:flex"
       >
         NextEvents
@@ -13,6 +14,7 @@ export const NavLogo: FC = () => {
 
       <Link
         href="/"
+        shouldStyleActive={false}
         className="btn btn-ghost text-primary upper-case flex-0 flex-shrink text-xl display md:hidden"
       >
         NE

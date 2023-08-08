@@ -49,7 +49,7 @@ export const Button: FC<ButtonProps> = (props) => {
   } = props;
   return (
     <button
-      className={`btn normal-case flex-nowrap ${statusTypeClasses[statusType]} ${btnSizeClasses[size]} ${className}`}
+      className={`btn flex-nowrap ${statusTypeClasses[statusType]} ${btnSizeClasses[size]} ${className}`}
       type={type}
       disabled={isDisabled || isLoading}
       onClick={onClick}

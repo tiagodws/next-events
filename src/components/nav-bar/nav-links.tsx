@@ -7,7 +7,7 @@ export const NavLinks: FC = () => {
     <div className="flex">
       <Link
         href="/featured"
-        className="btn btn-ghost mr-2 flex-0 flex-shrink hidden sm:flex"
+        className="btn btn-ghost mr-2 flex-0 flex-shrink hidden md:flex"
       >
         <SparklesIcon className="w-5 h-5" />
         <span className="hidden md:block">Featured Events</span>

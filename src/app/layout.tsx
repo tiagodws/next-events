@@ -10,7 +10,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
   const { children } = props;
 
   return (
-    <html lang="en">
+    <html lang="en" className="bg-base-100">
       <body>
         <ClientRootLayout>{children}</ClientRootLayout>
       </body>

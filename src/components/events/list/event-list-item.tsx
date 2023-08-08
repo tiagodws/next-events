@@ -16,7 +16,7 @@ export const EventListItem: FC<EventListItemProps> = (props) => {
   return (
     <Link
       href={detailLink}
-      className="card card-compact bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+      className="card card-compact bg-base-100 border-base-200 border-2 shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       <figure className="relative overflow-hidden rounded-t-none h-20">
         <Image

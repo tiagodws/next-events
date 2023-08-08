@@ -50,11 +50,11 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
   }, [defaultYear, defaultMonth]);
 
   return (
-    <form className="join flex" onSubmit={submitHandler}>
+    <form className="flex" onSubmit={submitHandler}>
       <select
         id="year"
         ref={yearInputRef}
-        className="select select-bordered join-item flex-1 min-w-0"
+        className="select select-bordered flex-1 min-w-0"
         defaultValue={defaultYear}
       >
         <option disabled value="">
@@ -71,7 +71,7 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
       <select
         id="month"
         ref={monthInputRef}
-        className="select select-bordered join-item flex-1 min-w-0"
+        className="select select-bordered flex-1 min-w-0 ml-2"
         defaultValue={defaultMonth}
       >
         <option disabled value="">
@@ -85,7 +85,7 @@ export const EventSearch: FC<EventSearchProps> = (props) => {
         ))}
       </select>
 
-      <Button className="join-item flex-0" type="submit">
+      <Button className="ml-2 flex-0" type="submit">
         Search
       </Button>
     </form>
