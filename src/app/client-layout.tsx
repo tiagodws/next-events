@@ -1,6 +1,6 @@
 'use client';
 
-import { MainHeader } from '@/components/layout/main-header';
+import { TopBar } from '@/components/top-bar';
 import { Toaster } from '@/components/ui';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
@@ -19,7 +19,7 @@ const ClientRootLayout: FC<ClientRootLayoutProps> = (props) => {
 
   return (
     <SessionProvider>
-      <MainHeader />
+      <TopBar />
       <Toaster />
       <main className={`my-8 ${inter.className}`}>{children}</main>
       <Analytics />

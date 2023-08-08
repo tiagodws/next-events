@@ -5,7 +5,7 @@ import { type FC } from 'react';
 import { Button } from '../ui';
 import { Link } from '../ui/link';
 
-export const MainHeader: FC = () => {
+export const TopBar: FC = () => {
   const { status } = useSession();
 
   return (
