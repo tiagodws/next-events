@@ -28,24 +28,27 @@ const getStaticProps = async (
   const validation = z.string().safeParse(slug);
 
   if (!validation.success) {
-    return notFound();
+    notFound();
   }
 
   const event = await getEventBySlug(validation.data);
 
   if (!event) {
-    return notFound();
+    notFound();
   }
 
   if (!session) {
-    return redirect(`/event/${validation.data}`);
+    redirect(`/event/${validation.data}`);
   }
 
   return { event };
 };
 
-export const metadata: Metadata = {
-  title: 'Next Events - Edit event',
+export const generateMetadata = async (
+  props: EditEventPageProps
+): Promise<Metadata> => {
+  const { event } = await getStaticProps(props);
+  return { title: `Editing "${event.title}"` };
 };
 
 export default EditEventPage;

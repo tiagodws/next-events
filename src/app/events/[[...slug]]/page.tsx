@@ -17,10 +17,7 @@ const EventsPage: FC<EventsPageProps> = async (props) => {
 const getStaticProps = async (
   props: EventsPageProps
 ): Promise<ClientEventPageProps> => {
-  const slug = props.params.slug;
-  const page = slug?.[0];
-  const pageNumber = Number(page) || 1;
-
+  const pageNumber = getPageNumber(props);
   const [events, pagination] = await getEvents({ pageNumber });
 
   return { events, pagination };
@@ -34,10 +31,23 @@ export const generateStaticParams = async (): Promise<EventsPageProps[]> => {
   ];
 };
 
+export const generateMetadata = async (
+  props: EventsPageProps
+): Promise<Metadata> => {
+  const pageNumber = getPageNumber(props);
+
+  return {
+    title: `All events - Page ${pageNumber}`,
+  };
+};
+
+const getPageNumber = (props: EventsPageProps): number => {
+  const slug = props.params.slug;
+  const page = slug?.[0];
+  return Number(page) || 1;
+};
+
 export const dynamicParams = true;
 export const revalidate = 10;
-export const metadata: Metadata = {
-  title: 'Next Events - All events',
-};
 
 export default EventsPage;

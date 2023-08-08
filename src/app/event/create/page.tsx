@@ -21,7 +21,7 @@ const getStaticProps = async (): Promise<void> => {
 };
 
 export const metadata: Metadata = {
-  title: 'Next Events - Create event',
+  title: 'Create event',
 };
 
 export default CreateEventPage;

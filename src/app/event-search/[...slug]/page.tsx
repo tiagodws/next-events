@@ -1,6 +1,8 @@
 import { getMonthEvents } from '@/lib/get-month-events';
-import { add, sub } from 'date-fns';
+import type { PaginationRequest } from '@/types';
+import { add, format, sub } from 'date-fns';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import type { FC } from 'react';
 import ClientEventSearchPage, {
   type ClientEventSearchPageProps,
@@ -20,6 +22,47 @@ const EventSearchPage: FC<EventSearchPageProps> = async (props) => {
 const getStaticProps = async (
   props: EventSearchPageProps
 ): Promise<ClientEventSearchPageProps> => {
+  const { numericDates, paginationRequest, search } = getSearchValues(props);
+  const [events, pagination] = await getMonthEvents(
+    numericDates,
+    paginationRequest
+  );
+
+  return { events, pagination, search };
+};
+
+export const generateStaticParams = async (): Promise<
+  EventSearchPageProps[]
+> => {
+  const startDate = sub(new Date(), { months: 1 });
+  return Array.from({ length: 6 }, (_, i) => {
+    const date = add(startDate, { months: i });
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    return { params: { slug: [year.toString(), month.toString()] } };
+  });
+};
+
+export const generateMetadata = async (
+  props: EventSearchPageProps
+): Promise<Metadata> => {
+  const { search, paginationRequest } = getSearchValues(props);
+  const displayDate =
+    search &&
+    format(new Date(Number(search.year), Number(search.month)), 'MMMM yyyy');
+
+  return {
+    title: `Events in ${displayDate} - Page ${paginationRequest.pageNumber}`,
+  };
+};
+
+const getSearchValues = (
+  props: EventSearchPageProps
+): {
+  numericDates: { yearNumber: number; monthNumber: number };
+  paginationRequest: Partial<PaginationRequest>;
+  search: { year: string; month: string };
+} => {
   const slug = props.params?.slug;
   const year = slug?.[0];
   const month = slug?.[1];
@@ -35,47 +78,17 @@ const getStaticProps = async (
   const isValidSearch = isValidYear && isValidMonth;
 
   if (!isValidSearch) {
-    return {
-      events: [],
-      pagination: {
-        pageCount: 0,
-        pageNumber: 0,
-        pageSize: 0,
-        totalCount: 0,
-      },
-      isInvalidSearch: true,
-    };
+    redirect('/events-search');
   }
 
-  const [events, pagination] = await getMonthEvents(
-    {
-      monthNumber,
-      yearNumber,
-    },
-    {
-      pageNumber,
-    }
-  );
-
-  return { events, pagination, search: { year, month } };
-};
-
-export const generateStaticParams = async (): Promise<
-  EventSearchPageProps[]
-> => {
-  const startDate = sub(new Date(), { months: 1 });
-  return Array.from({ length: 6 }, (_, i) => {
-    const date = add(startDate, { months: i });
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    return { params: { slug: [year.toString(), month.toString()] } };
-  });
+  return {
+    numericDates: { yearNumber, monthNumber },
+    paginationRequest: { pageNumber },
+    search: { year, month },
+  };
 };
 
 export const dynamicParams = true;
 export const revalidate = 10;
-export const metadata: Metadata = {
-  title: 'Next Events - Search events',
-};
 
 export default EventSearchPage;

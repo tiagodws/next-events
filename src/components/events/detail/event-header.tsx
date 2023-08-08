@@ -82,7 +82,7 @@ export const EventHeader: FC<EventHeaderProps> = (props) => {
             <span className="hidden md:block">Delete</span>
           </Button>
 
-          <Button className="btn-accent flex-1 ml-2" onClick={onEditHandler}>
+          <Button className="btn-secondary flex-1 ml-2" onClick={onEditHandler}>
             <PencilIcon className="w-5 h-5 md:hidden" />
             <span className="hidden md:block">Edit</span>
           </Button>

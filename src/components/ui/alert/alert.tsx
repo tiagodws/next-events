@@ -36,8 +36,9 @@ export const Alert: FC<AlertProps> = (props) => {
   const { id, message, statusType = 'default' } = props;
 
   return (
-    <div id={id} className={`alert ${statusTypeClasses[statusType]}`}>
-      {icon[statusType]}
+    <div id={id} className={`alert ${statusTypeClasses[statusType]} flex`}>
+      <div className="flex-0">{icon[statusType]}</div>
+
       <span>{message}</span>
     </div>
   );

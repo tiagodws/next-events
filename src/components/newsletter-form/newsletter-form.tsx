@@ -82,14 +82,15 @@ export const NewsletterForm: FC = () => {
       <div className="join w-full flex">
         <input
           id="email"
-          className="input input-bordered join-item min-w-0 flex-1"
+          className="input input-bordered join-item min-w-0 flex-[4]"
           placeholder="Email"
+          type="email"
           ref={emailRef}
           disabled={isLoading}
         />
 
         <Button
-          className="join-item flex-0"
+          className="join-item flex-1"
           type="submit"
           isLoading={isLoading}
         >

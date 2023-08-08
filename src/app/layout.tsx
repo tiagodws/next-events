@@ -10,8 +10,8 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
   const { children } = props;
 
   return (
-    <html lang="en" className="h-full">
-      <body className="h-full">
+    <html lang="en">
+      <body>
         <ClientRootLayout>{children}</ClientRootLayout>
       </body>
     </html>

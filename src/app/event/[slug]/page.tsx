@@ -1,10 +1,10 @@
 import { getComments } from '@/lib/get-comments';
 import { getEventBySlug } from '@/lib/get-event';
-import { getFeaturedEvents } from '@/lib/get-featured-events';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
 import { z } from 'zod';
+import { getFeaturedEvents } from '../../../lib/get-featured-events';
 import ClientEventPage, { type ClientEventPageProps } from './client-page';
 
 type EventPageProps = {
@@ -25,13 +25,13 @@ const getStaticProps = async (
   const validation = z.string().safeParse(slug);
 
   if (!validation.success) {
-    return notFound();
+    notFound();
   }
 
   const event = await getEventBySlug(validation.data);
 
   if (!event) {
-    return notFound();
+    notFound();
   }
 
   const [comments, commentsPagination] = await getComments(event?.id);
@@ -50,10 +50,14 @@ export const generateStaticParams = async (): Promise<EventPageProps[]> => {
   return events.map((event) => ({ params: { slug: event.slug } }));
 };
 
+export const generateMetadata = async (
+  props: EventPageProps
+): Promise<Metadata> => {
+  const { event } = await getStaticProps(props);
+  return { title: event.title };
+};
+
 export const dynamicParams = true;
 export const revalidate = 10;
-export const metadata: Metadata = {
-  title: 'Next Events - Event',
-};
 
 export default EventPage;

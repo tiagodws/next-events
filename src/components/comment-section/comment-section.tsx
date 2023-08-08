@@ -49,9 +49,10 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
   );
   const [commentData, setCommentData] =
     useState<PaginatedApiResponse<Comment[]>>(initialCommentData);
+  const [mutatingId, setMutatingId] = useState<string | null>(null);
   const queryParams = `pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`;
   const url = `/api/events/${eventId}/comments`;
-  const { trigger, isMutating } = useSWRMutation(
+  const { trigger } = useSWRMutation(
     `/api/events/${eventId}/comments`,
     deleteComment
   );
@@ -63,10 +64,13 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
 
   const onDeleteHandler = async (id: string): Promise<void> => {
     try {
+      setMutatingId(id);
       await trigger(id);
     } catch (err) {
       toast({ message: (err as Error).message, statusType: 'error' });
     }
+
+    setMutatingId(null);
   };
 
   const progressClasses = isValidating ? 'opacity-30' : 'opacity-0';
@@ -104,10 +108,11 @@ export const CommentSection: FC<CommentSectionProps> = (props) => {
 
               {status === 'authenticated' && (
                 <Button
-                  className="btn-xs ml-4"
+                  className="ml-4 w-8"
                   statusType="error"
+                  size="xs"
                   onClick={() => onDeleteHandler(comment.id)}
-                  isLoading={isMutating}
+                  isLoading={mutatingId === comment.id}
                 >
                   <TrashIcon strokeWidth={2} className="h-3 w-3" />
                 </Button>

@@ -93,6 +93,7 @@ export const CommentForm: FC<CommentFormProps> = (props) => {
           id="email"
           className="input input-bordered col-span-6"
           placeholder="Email"
+          type="email"
           ref={emailRef}
           disabled={isMutating}
         />
@@ -112,11 +113,17 @@ export const CommentForm: FC<CommentFormProps> = (props) => {
           ref={contentRef}
           disabled={isMutating}
         />
-      </div>
 
-      <Button type="submit" isLoading={isMutating} className="mt-4">
-        Comment
-      </Button>
+        <div className="hidden sm:block col-span-6" />
+
+        <Button
+          type="submit"
+          isLoading={isMutating}
+          className="btn-secondary col-span-12 sm:col-span-6"
+        >
+          Comment
+        </Button>
+      </div>
     </form>
   );
 };

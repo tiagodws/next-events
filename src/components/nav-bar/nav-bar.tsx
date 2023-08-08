@@ -5,7 +5,7 @@ import { NavLogo } from './nav-logo';
 
 export const NavBar: FC = () => {
   return (
-    <header className="navbar justify-between bg-default shadow-sm">
+    <nav className="navbar justify-between bg-white shadow-sm">
       <div className="flex flex-1 justify-start">
         <NavLogo />
       </div>
@@ -17,6 +17,6 @@ export const NavBar: FC = () => {
       <div className="flex flex-1 justify-end">
         <NavAdmin />
       </div>
-    </header>
+    </nav>
   );
 };

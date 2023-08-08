@@ -19,10 +19,7 @@ const FeaturedPage: FC<FeaturedPageProps> = async (props) => {
 const getStaticProps = async (
   props: FeaturedPageProps
 ): Promise<ClientFeaturedPageProps> => {
-  const slug = props.params.slug;
-  const page = slug?.[0];
-  const pageNumber = Number(page) || 1;
-
+  const pageNumber = getPageNumber(props);
   const [events, pagination] = await getFeaturedEvents({ pageNumber });
 
   return { events, pagination };
@@ -38,10 +35,23 @@ export const generateStaticParams = async (): Promise<FeaturedPageProps[]> => {
   return [{ params: { slug: [''] } }, ...pageParams];
 };
 
+export const generateMetadata = async (
+  props: FeaturedPageProps
+): Promise<Metadata> => {
+  const pageNumber = getPageNumber(props);
+
+  return {
+    title: `Featured events - Page ${pageNumber}`,
+  };
+};
+
+const getPageNumber = (props: FeaturedPageProps): number => {
+  const slug = props.params.slug;
+  const page = slug?.[0];
+  return Number(page) || 1;
+};
+
 export const dynamicParams = true;
 export const revalidate = 10;
-export const metadata: Metadata = {
-  title: 'Next Events - Featured events',
-};
 
 export default FeaturedPage;

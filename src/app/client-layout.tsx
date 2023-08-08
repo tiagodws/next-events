@@ -20,12 +20,12 @@ const ClientRootLayout: FC<ClientRootLayoutProps> = (props) => {
   return (
     <SessionProvider>
       <Toaster />
-      <main className={`h-full flex flex-col ${inter.className}`}>
-        <div className="flex-0">
+      <main className={`${inter.className}`}>
+        <div className="sticky top-0 z-[1]">
           <NavBar />
         </div>
 
-        <div className="flex-1 py-8 overflow-auto">{children}</div>
+        <div className="py-8 relative z-0">{children}</div>
       </main>
       <Analytics />
     </SessionProvider>
